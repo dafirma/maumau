@@ -3,7 +3,7 @@ MAU MAU - Card game
 
 ## Description
 Brief description of the project
-* Switch is a card game that is played with at least 2 players.
+* Mau Mau is a card game that is played with at least 2 players.
 * The players starts with (7 or 5) random cards from (2-10 or 7-10), J,Q,K,A(hearts,clubs,diamons,spades)in total 32 or 52 cards.
 * The desk show one card, then every turn one player should play one card that match with the value or suit that is on the table.
 * Special cards (2,7,8.9.A,J,Q)
@@ -37,7 +37,7 @@ Classes and methods definition.
 - card
 - deal cards
 - turn card from the stack
-- 
+
 
 
 ## States y States Transitions
@@ -56,6 +56,8 @@ Task definition in order of priority
 - deal cards for 2 player
 - random deal of cards
 - button to cover or show the cards of player 1 or player 2
+- control the turn of each player
+- control the the amount of card each player should take
 - GameoverScreen, WinScreen
 - apply rules for special cards  
 
