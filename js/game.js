@@ -6,16 +6,23 @@ let card4 = document.getElementById('card4');
 let card5 = document.getElementById('card5');
 // button hide card
 let hideCards = document.getElementById('btn-hide');
-hideCards.addEventListener('click',function(){
-  console.log('test');
+hideCards.addEventListener('click',function(){ 
+  hide();
 })
-let divHandCards = document.getElementById('container-cards');
-let counter = divHandCards.getElementsByTagName('div');
+// let divHandCards = document.getElementById('container-cards');
+// let counter = divHandCards.getElementsByTagName('div');
 function hide (){
   let backCard = document.getElementById('dealer');
   let cloneBackCard = backCard.cloneNode(true);
+  let divHandCards = document.getElementById('container-cards');
+  let counter = divHandCards.getElementsByTagName('div');
+  for (let i = 0; i < counter.length; i++){
+    counter[i].parentNode.replaceChild(cloneBackCard,counter[i]);
+
+  }
   
 }
+
 let containerHand = document.getElementById('container-cards');
 // destination cards
 // maybe to get all the cards will be better by querySeletorAll(array)

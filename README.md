@@ -33,10 +33,15 @@ based in DOM
 ## Data structure
 Classes and methods definition.
 - Deck - constructor
-- Generator deck
-- card
-- deal cards
-- turn card from the stack
+- Generator deck (cards, player, table)
+- Card(value, suit)
+- Shuffle cards   (fisher yates shuffle method)
+- Deal cards 
+- Turn card from the stack ( check with player can play)
+- Show and Hide Cards (function to show and hide cards)
+- call game screen
+- call game over screen
+- 
 
 
 
@@ -44,10 +49,14 @@ Classes and methods definition.
 Definition of the different states and their transition (transition functions)
 
 - splashScreen
+    * Presentation of Game, with the rules and start button
 - gameScreen
+    * Screen with cards player 1 and player 2.
+    * Button Show/Hide Cards
 - gameoverScreen
+    * Screen with game over info and button to restart
 - winScreen
-
+      Screen with Win info and button to restart
 
 ## Task
 Task definition in order of priority
@@ -77,4 +86,4 @@ URls for the project repo and deploy
 
 ### Slides
 URls for the project presentation (slides)
-[Link Slides.com](http://slides.com)
+[Link Slides.com](https://slides.com/dafirma/)

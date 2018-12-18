@@ -1,7 +1,11 @@
+.container{
+  max-width: 80%;
+}
 
-.table-container {
-  background: url ("./images/395324-PCH347-910.jpg");
+footer {
+
   background-repeat: no-repeat;
+  
 }
 .main-title {
 text-align: center;
@@ -10,18 +14,14 @@ text-align: center;
 .container-dealer{
   display:flex;
   flex-direction: row;
+  padding-bottom: 50px;
 }
 #container-cards{
-  display: grid;
-  grid-template-columns: 100px 100px 100px 100px 100px;
-  grid-template-rows: 50px 50px;
+  display: flex;
   clear: both;
   padding-bottom: 50px;
 }
 .img-card{
-  max-width: 70%;
+  max-width: 50%;
 }
-.stack-card{
-  max-width: 60%;
 
-}

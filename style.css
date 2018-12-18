@@ -1,0 +1,35 @@
+.container{
+  height: 900px;
+  background-color:green;
+  position: relative;
+ 
+}
+.container-cards{
+  position:absolute;
+  padding: 50px;
+}
+.cards-dealer{
+  display:inline-flex;
+  max-width: 50%;
+  padding-right: 20px;
+}
+
+.img-card{
+  width: 60%;
+}
+#cards-hand{
+  padding-top:50px;
+  display: flex;
+}
+#cards-hand-hide{
+  padding-top:50px;
+  display: none;
+}
+
+.img-card-hide{
+  width: 60%;  
+}
+
+.cards{
+  float: left;
+}
