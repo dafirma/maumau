@@ -1,0 +1,27 @@
+.container{
+  max-width: 80%;
+}
+
+footer {
+
+  background-repeat: no-repeat;
+  
+}
+.main-title {
+text-align: center;
+
+}
+.container-dealer{
+  display:flex;
+  flex-direction: row;
+  padding-bottom: 50px;
+}
+#container-cards{
+  display: flex;
+  clear: both;
+  padding-bottom: 50px;
+}
+.img-card{
+  max-width: 50%;
+}
+
