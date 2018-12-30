@@ -9,6 +9,7 @@ function Game (){
   this.player1 =  new Player('Hugo');
   this.player2 = new Player('Annabelle');
   this.card = new Card(suit, number);
+  //this.deck =[];
 
 }
 
@@ -25,8 +26,8 @@ function Game (){
     }
   }
    console.log(deck); */
-  function createDeck (){
-  var suits = ["spades", "diamonds", "clubs", "hearts"];
+  Game.prototype.createDeck = function(){
+  var suits = ["Spades", "Diamonds", "Clubs", "Hearts"];
   var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
   var card;
   var deck = [];
@@ -35,7 +36,8 @@ function Game (){
 		for(var x = 0; x < values.length; x++)
 		{
 		  card = {value:values[x],suit:suits[i]};
-			deck.push(card);
+      deck.push(card);
+      
 		}
 	}
 
@@ -44,13 +46,14 @@ function Game (){
 
 Game.prototype.shuffleCards = function(){
   console.log('teste');
-  for (let i=0; i < array.length-2; i++){
-    let random = Math.floor(Math.random()*(array.length -i)) + i;
-    let j = array[i];
-    array[i] = array[random];
-    array[random] = j;
+  var deck = Game.prototype.createDeck();
+  for (let i=0; i < deck.length-2; i++){
+    let random = Math.floor(Math.random()*(deck.length -i)) + i;
+    let j = deck[i];
+    deck[i] = deck[random];
+    deck[random] = j;
   }
-  return array;
+  return deck;
 }
 
 
@@ -60,9 +63,6 @@ Game.prototype.deal = function (){
 }
 Game.prototype.firstDeal = function(){
   // to show the first card 
-}
-Game.prototype.createDeck = function(){
-  //to create automatic div on the DOM
 }
 
 
