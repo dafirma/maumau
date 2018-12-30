@@ -8,7 +8,8 @@ function Game (){
   this.width= '600px';
   this.player1 =  new Player('Hugo');
   this.player2 = new Player('Annabelle');
-  this.card = new Card(suit, number);
+  //this.card = new Card(suit, number);
+  this.cards = [];
   //this.deck =[];
 
 }
@@ -57,18 +58,37 @@ Game.prototype.shuffleCards = function(){
 }
 
 
-Game.prototype.deal = function (){
-    var suit = Math.floor();
-
+Game.prototype.dealCards = function(){
+  //create a loop
+  var cards =  Game.prototype.shuffleCards();
+  var hand = [];
+  if (cards.length > 0){
+    return cards.shift();
+  }else{
+    console.log('no cards');
+  }
 }
+  Game.prototype.hand = function(){
+    console.log('hand');
+    var hand =[];
+    for (var i = 0; i < 6; i++){
+      var temp = Game.prototype.dealCards();
+      hand.push(temp); 
+    } 
+    console.log(hand);
+  }
+    
 Game.prototype.firstDeal = function(){
   // to show the first card 
+  var array = Game.prototype.shuffleCards();
+  return array
+}
+Game.prototype.tableCards = function(){
+
 }
 
-
-Game.prototype.gameOver = function (){
-  console.log('teste')
-
+Game.prototype.renderDeck = function(){
+  // to send the cards to DOM
 }
 Game.prototype.takeCardFromStack = function (){
 
@@ -83,3 +103,8 @@ Game.prototype.matchCards = function(cardHand, cardStack){
 }
 Game.cardHand
 
+
+Game.prototype.gameOver = function (){
+  console.log('teste')
+
+}
