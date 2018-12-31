@@ -64,7 +64,7 @@ Game.prototype.dealCards = function(){
   var hand = [];
   if (cards.length > 0){
     return cards.shift();
-  }else{
+  }else{ //finish cards
     console.log('no cards');
   }
 }
@@ -80,28 +80,54 @@ Game.prototype.dealCards = function(){
     
 Game.prototype.firstDeal = function(){
   // to show the first card 
-  var array = Game.prototype.shuffleCards();
-  return array
+  var firstCard = Game.prototype.shuffleCards();
+  return firstCard
 }
 Game.prototype.tableCards = function(){
 
+  var tableCard = Game.prototype.firstDeal();
+
+
+
+
 }
+Game.prototype.deleteCard = function(){
+  let conditon = Game.prototype.matchCards();
+  if (conditon ==='true'){
+    console.log('delete ok');
+  }else {
+    console.log('delete not');
+  }
+}
+
+Game.prototype.takeCardFromStack = function (){
+  //if match card is false the player need to take cards in loop until 
+  // get some card that match with the table card
+
+}
+// let tableCard =[{ value: '5', suit: 'clubs' }];
+
+Game.prototype.matchCards = function(cardHand, tableCard){
+  let cardHand = Game.prototype.hand();
+  let tableCard = Game.prototype.tableCards();
+  let tableValue = tableCard[0].value;
+  let tableSuit = tableCard[0].suit;
+  if(cardHand.some(item => item.value === tableValue)){
+    //return true
+    console.log('yes, you can play value ok');
+  }else if(cardHand.some(item => item.suit === tableSuit)){
+    //return true
+    console.log('yes, you can play suit ok');
+  }else {
+    //return false
+    console.log('no, you cannot play');
+  }
+}
+
 
 Game.prototype.renderDeck = function(){
   // to send the cards to DOM
 }
-Game.prototype.takeCardFromStack = function (){
-
-}
-
-
-Game.prototype.matchCards = function(cardHand, cardStack){
-  /*
-    if the car
-
-  */
-}
-Game.cardHand
 
 
 Game.prototype.gameOver = function (){
