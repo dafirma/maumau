@@ -1,11 +1,16 @@
-function Player (turn,){
+function Player (name){
+  this.name = name;
   this.hand= [];
-  this.turn = turn;
+
   
 }
 Player.prototype.counterCards = function(){
-  this.hand =[]; /// logic to check with the hand is empty.
+  this.hand =[]; /// logic to check if the hand is empty.
 
 }
 
-var test3 = 'hello player';
+Player.prototype.showName = function(){
+  console.log(this.name);
+}
+
+

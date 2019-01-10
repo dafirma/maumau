@@ -1,4 +1,53 @@
 .container{
+  height: 900px;
+  background-color:green;
+  position: relative;
+ 
+}
+#container-cards{
+  position:absolute;
+  padding: 200px;
+  display: none;
+  max-width: 60%;
+}
+.cards-dealer{
+  display:inline-flex;
+  max-width: 50%;
+  padding-right: 20px;
+}
+
+.img-card{
+  width: 60%;
+}
+#cards-hand{
+  padding-top:50px;
+  display: flex;
+}
+#cards-hand img{
+  width: 20%;
+  height: 20%;
+}
+#cards-hand-hide{
+  padding-top:50px;
+  display: none;
+}
+
+.img-card-hide{
+  width: 60%;  
+}
+
+.cards{
+  float: left;
+}
+#start-screen{
+  display:block;
+}
+
+#gameover-screen{
+  display:none;
+}
+/*
+.container{
   max-width: 80%;
 }
 
@@ -24,4 +73,4 @@ text-align: center;
 .img-card{
   max-width: 50%;
 }
-
+*/

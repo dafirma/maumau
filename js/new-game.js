@@ -57,6 +57,16 @@ Game.prototype.shuffleCards = function(){
   return deck;
 }
 
+Game.prototype.oneDeal = function(){
+  var cards = Game.prototype.shuffleCards();
+  var oneCard = [];
+  if (cards.length > 0){
+    oneCard = cards[0];
+    cards.shift();
+  }else {
+    console.log('no enought cards');
+  }
+}
 
 Game.prototype.dealCards = function(){
   //create a loop
@@ -85,9 +95,12 @@ Game.prototype.firstDeal = function(){
 }
 Game.prototype.tableCards = function(){
 
-  var tableCard = Game.prototype.firstDeal();
+  var tableCard = Game.prototype.dealCards();
+  console.log(tableCard);
 
-
+Game.prototype.cardCount = function(){
+  return
+}
 
 
 }
@@ -107,11 +120,13 @@ Game.prototype.takeCardFromStack = function (){
 }
 // let tableCard =[{ value: '5', suit: 'clubs' }];
 
-Game.prototype.matchCards = function(cardHand, tableCard){
+Game.prototype.matchCards = function(){
+  // next step is create a array with the key/value that match  with he condiction
   let cardHand = Game.prototype.hand();
   let tableCard = Game.prototype.tableCards();
   let tableValue = tableCard[0].value;
   let tableSuit = tableCard[0].suit;
+  let arr =[];
   if(cardHand.some(item => item.value === tableValue)){
     //return true
     console.log('yes, you can play value ok');

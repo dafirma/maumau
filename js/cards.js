@@ -1,15 +1,17 @@
-function Cards(number, suit){
+function Card(number, suit){
   this.number = number;
   this.suit = suit;
   //this.image = image;
-  this.cards = [];
-  this.toString = cardtoString;
+  this.toString = cardToString;
 }
 
-function cardtoString(){ 
+
+// function to make easy to exchange by image
+
+function cardToString(){ 
   // not sure if is prototype or just function
 
-  var number; 
+  var number; //rank 
   var suit;
 
   switch (this.number) {
@@ -52,9 +54,6 @@ function cardtoString(){
     case "K" :
       number = "King"
       break;
-    default :
-      number = null;
-      break;
   }
 
   switch (this.suit) {
@@ -72,10 +71,8 @@ function cardtoString(){
       break;
   }
 
-  if (number == null || suit == null)
-    return "";
-
   return number + "_of_" + suit;
+  //will reference to find and change for the picture.
 }
 /*
   // to test 
