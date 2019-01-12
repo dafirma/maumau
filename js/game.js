@@ -36,24 +36,85 @@ function img (){
 }
 
 function imgToDom(){
-  for(var i = 0; i < this.hand.length; i++){
+  
+  for (var i = 0; i < this.hand.length; i++){
   var img = document.createElement('img');
   img.src = this.hand[i].image;
   var src = document.getElementById("cards-hand");
-  src.appendChild(img);
-  console.log(img.src);
+  src.appendChild(img); //big to small
   }
 }
 
-function detectCard(){
-  //event listner to check when click in the card
-  console.log('hola');
-  let divs = document.getElementsByTagName('div');
-  for (var i = 0; i < this.hand.length; i++){
-    divs[i].addEventListener('click', function(){
-      console.log('ok');
-    })
 
+function imgToTable(){
+  //console.log(this.table);
+  //console.log(this.table.image);
+  for (var i = 0; i < this.table.length; i++){
+  var img = document.createElement('img');
+  img.src = this.table.image;
+  var src = document.getElementById("cards-hand");
+  src.appendChild(img);
+  console.log(this.hand);
+  }
+}
+
+/*
+function backCard(){
+  var imgBackCard = document.createElement('img');
+  imgBackCard.src = `images/newcards/back.png`;
+  var src = document.getElementById("cards-dealer");
+  if(allCardsCount() > 0){  
+    src.appendChild(imgBackCard);
+
+  }else {
+    console.log('cards');
+  }
+}
+*/
+
+function allCardsAdd(){ //card
+  //this.cards.push(card);
+
+
+  hand.push(this.cards[0]);
+  this.cards.shift();
+  console.log(hand)
+
+
+  imgToDom();
+}
+
+
+
+
+
+function detectCard(){
+  var img = document.querySelectorAll("#cards-hand img");
+  console.log(img);
+  console.log(img[0]);
+  var srcImg;
+for(var i = 0; i < this.hand.length; i++){
+    img[i].addEventListener("click", function(e){
+      //temp = this.hand[i];
+      console.log(e.currentTarget.src);
+      srcImg = e.currentTarget.src;
+      var srcImgNew = srcImg.slice(54);
+      console.log(srcImgNew);
+    })
+    
+  }
+}
+
+
+function backCard(){
+  var imgBackCard = document.createElement('img');
+  imgBackCard.src = `images/newcards/back.png`;
+  var src = document.getElementById("cards-dealer");
+  if(allCardsCount() > 0){  
+    src.appendChild(imgBackCard);
+
+  }else {
+    console.log('cards');
   }
 }
 function allCardsShuffle(){
@@ -63,6 +124,7 @@ function allCardsShuffle(){
     this.cards[i] = this.cards[random];
     this.cards[random] = j;
   }
+  img();
   console.log(this.cards);
 }
 
@@ -78,10 +140,6 @@ function allCardsDeal(){
   }
 }
 
-function allCardsAdd(card){
-  this.cards.push(card);
-
-}
 function allCardsCount(){
   return this.cards.length;
 }
@@ -89,7 +147,7 @@ function allCardsCount(){
 // game
 var deck;
 var hand = [];
-var table;
+var table = [];
 function initGame(){
   deck = null;
   //deck = new Allcards();
@@ -106,8 +164,11 @@ function startGame(){
   makeDeck();
   allCardsShuffle();
   img();
-  dealToTable()
+  dealToTable();
   dealToHand();
+  //backCard();
+  //imgToDom();
+
   console.log('ok');
 }
 
@@ -144,6 +205,9 @@ function dealToHand(){
     }
   console.log(hand); // to check ok
 }
+
+
+
 
 function canPlay(){
     // how to access the card suit/number??? 
