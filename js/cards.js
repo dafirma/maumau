@@ -2,7 +2,7 @@ function Card(number, suit){
   this.number = number;
   this.suit = suit;
   //this.image = image;
-  this.toString = cardToString;
+  //this.toString = cardToString;
 }
 
 
@@ -71,7 +71,7 @@ function cardToString(){
       break;
   }
 
-  return number + "_of_" + suit;
+  return number + "_of_"+ suit;
   //will reference to find and change for the picture.
 }
 /*

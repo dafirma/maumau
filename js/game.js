@@ -26,97 +26,6 @@ function makeDeck(){
 	console.log (this.cards);
 }
 
-function img (){
-  this.cards.forEach(card => {
-    card.image = `images/newcards/${card.number}-${card.suit}.png`;
-    //console.log(card.number);
-    //card.image = `${cards.number}-${cards.suit}`.png;
-  });
-  console.log(this.cards);
-}
-
-function imgToDom(){
-  
-  for (var i = 0; i < this.hand.length; i++){
-  var img = document.createElement('img');
-  img.src = this.hand[i].image;
-  var src = document.getElementById("cards-hand");
-  src.appendChild(img); //big to small
-  }
-}
-
-
-function imgToTable(){
-  //console.log(this.table);
-  //console.log(this.table.image);
-  for (var i = 0; i < this.table.length; i++){
-  var img = document.createElement('img');
-  img.src = this.table.image;
-  var src = document.getElementById("cards-hand");
-  src.appendChild(img);
-  console.log(this.hand);
-  }
-}
-
-/*
-function backCard(){
-  var imgBackCard = document.createElement('img');
-  imgBackCard.src = `images/newcards/back.png`;
-  var src = document.getElementById("cards-dealer");
-  if(allCardsCount() > 0){  
-    src.appendChild(imgBackCard);
-
-  }else {
-    console.log('cards');
-  }
-}
-*/
-
-function allCardsAdd(){ //card
-  //this.cards.push(card);
-
-
-  hand.push(this.cards[0]);
-  this.cards.shift();
-  console.log(hand)
-
-
-  imgToDom();
-}
-
-
-
-
-
-function detectCard(){
-  var img = document.querySelectorAll("#cards-hand img");
-  console.log(img);
-  console.log(img[0]);
-  var srcImg;
-for(var i = 0; i < this.hand.length; i++){
-    img[i].addEventListener("click", function(e){
-      //temp = this.hand[i];
-      console.log(e.currentTarget.src);
-      srcImg = e.currentTarget.src;
-      var srcImgNew = srcImg.slice(54);
-      console.log(srcImgNew);
-    })
-    
-  }
-}
-
-
-function backCard(){
-  var imgBackCard = document.createElement('img');
-  imgBackCard.src = `images/newcards/back.png`;
-  var src = document.getElementById("cards-dealer");
-  if(allCardsCount() > 0){  
-    src.appendChild(imgBackCard);
-
-  }else {
-    console.log('cards');
-  }
-}
 function allCardsShuffle(){
   for (let i=0; i < this.cards.length-2; i++){
     let random = Math.floor(Math.random()*(this.cards.length -i)) + i;
@@ -125,6 +34,15 @@ function allCardsShuffle(){
     this.cards[random] = j;
   }
   img();
+  console.log(this.cards);
+}
+
+function img (){
+  this.cards.forEach(card => {
+    card.image = `images/newcards/${card.number}-${card.suit}.png`;
+    //console.log(card.number);
+    //card.image = `${cards.number}-${cards.suit}`.png;
+  });
   console.log(this.cards);
 }
 
@@ -143,10 +61,135 @@ function allCardsDeal(){
 function allCardsCount(){
   return this.cards.length;
 }
+
+
+function allCardsAdd(){ //card
+  //this.cards.push(card);
+  hand.push(this.cards[0]);
+  this.cards.shift();
+  console.log(hand);
+  //imgToDom();
+}
+
+function imgToDom(){
+
+  this.hand.forEach(function(card, i, array) {
+    var img = document.createElement('img');
+    img.src = card.image;
+    img.setAttribute("data-suit", card.suit);
+    img.setAttribute("data-number", card.number);
+    var parent = document.getElementById('cards-hand');
+    parent.appendChild(img);
+  });
+
+
+  /*
+  for (var i = 0; i < this.hand.length; i++){
+  var src = document.getElementById("cards-hand");
+  src.appendChild(img); //big to small
+  }*/
+}
+
+
+function imgToTable(){
+  console.log(this.table);
+  console.log(this.table.image);
+  var img = document.createElement('img');
+  img.src = this.table[0].image;
+  var src = document.getElementById("cards-table");
+  src.appendChild(img);
+
+}
+
+
+function detectCard(){
+  var img = document.querySelectorAll("#cards-hand img");
+  console.log(img);
+  console.log(img[0]);
+  var dataSuit;
+  var dataNumber;
+  var positionImg;
+for(var i = 0; i < this.hand.length; i++){
+    img[i].addEventListener("click", function(e){
+      //console.log(e.currentTarget.dataset.number);
+      dataNumber = e.currentTarget.dataset.number;
+      dataSuit = e.currentTarget.dataset.suit;
+      positionImg = img[0];
+      //var srcImgNew = srcImg.slice(54);
+      console.log(positionImg);
+      matchCardsNew(dataNumber,dataSuit);
+      //deleteCardDom(positionImg);
+
+    })
+    
+  }
+  
+}
+function matchCardsNew(number,suit){
+  //console.log(this.table);
+  console.log(number,suit);
+  var tempHand = hand;
+  if(number === this.table[this.table.length-1].number || suit === this.table[this.table.length-1].suit){
+    console.log('match');
+    deleteCard(number,suit);
+    sendCardToTable(number,suit);
+  }else{
+    console.log('no match');
+  }
+}
+
+function deleteCardDom(index){
+  var i = index;
+  var hand = document.getElementById('cards-hand');
+  hand.removeChild(hand.childNodes[i+1]);
+  //console.log(hand);
+
+}
+function deleteCard(number,suit){
+  this.hand.forEach(function(el, i, array){
+    if(number === el.number && suit === el.suit){
+      var cardToDelete = i;
+      //console.log(cardToDelete);
+      deleteCardDom(cardToDelete); //send the index 
+      array.shift(i);
+      console.log(i); 
+        //call function to send card to table
+    }
+  })
+}
+function sendCardToTable(number,suit){
+  var table = document.getElementById('cards-table');
+  /*
+  var img = document.createElement('img');
+  img.src = this.table[0].image;
+  var src = document.getElementById("cards-table");
+  src.appendChild(img);
+
+
+  */
+
+
+
+
+}
+
+function backCard(){
+  var imgBackCard = document.createElement('img');
+  imgBackCard.src = `images/newcards/back.png`;
+  var src = document.getElementById("cards-dealer");
+  if(allCardsCount() > 0){  
+    src.appendChild(imgBackCard);
+
+  }else {
+    console.log('cards');
+  }
+}
+
 //////////////////////////////////////////////////
 // game
 var deck;
 var hand = [];
+var hand2 =[];
 var table = [];
 function initGame(){
   deck = null;
@@ -166,9 +209,10 @@ function startGame(){
   img();
   dealToTable();
   dealToHand();
-  //backCard();
-  //imgToDom();
-
+  backCard();
+  imgToDom();
+  imgToTable();
+  //detectCard();
   console.log('ok');
 }
 
@@ -186,12 +230,11 @@ function shuffle(){
 
 function dealToTable(){
   if (this.cards.length > 0){
-    table = this.cards[0];
+    this.table.push(this.cards[0]);
     this.cards.shift();
-    console.log(this.cards);
     //console.log(this.cards.shift());
     //console.log('table = ' + table);
-    return table;
+    //return table;
   }else{
     console.log('empty');
   }
@@ -205,9 +248,6 @@ function dealToHand(){
     }
   console.log(hand); // to check ok
 }
-
-
-
 
 function canPlay(){
     // how to access the card suit/number??? 
@@ -231,6 +271,10 @@ function canPlay(){
   } 
 }
 function matchCards(){
+  var arrHand = this.hand;
+  var arrTable = this.table;
+  
+
  //to identify the card
 }
 function buyCard(){
@@ -239,67 +283,4 @@ function buyCard(){
 function renderCards (){
 
 }
-/*
-function gameOver(){
-
-}
-*/
-
-/*// origin hand cards
-let card1 = document.getElementById('card1');
-let card2 = document.getElementById('card2');
-let card3 = document.getElementById('card3');
-let card4 = document.getElementById('card4');
-let card5 = document.getElementById('card5');
-// button hide card
-let hideCards = document.getElementById('btn-hide');
-hideCards.addEventListener('click',function(){ 
-  hide();
-})
-// let divHandCards = document.getElementById('container-cards');
-// let counter = divHandCards.getElementsByTagName('div');
-function hide (){
-  let backCard = document.getElementById('dealer');
-  let cloneBackCard = backCard.cloneNode(true);
-  let divHandCards = document.getElementById('container-cards');
-  let counter = divHandCards.getElementsByTagName('div');
-  for (let i = 0; i < counter.length; i++){
-    counter[i].parentNode.replaceChild(cloneBackCard,counter[i]);
-
-  }
-  
-}
-
-let containerHand = document.getElementById('container-cards');
-// destination cards
-// maybe to get all the cards will be better by querySeletorAll(array)
-//let stack = document.getElementById('stack');
-let newStack = document.createElement('div');
-//let cloneCard= card2.cloneNode(true);
-//window.onload = function(){
-//  sendCardToStack();
-//}
-
-function sendCardToStack(card){
-  let stackPosition = document.getElementsByTagName('div')[3];
-  let cloneCard = card.cloneNode(true);
-  stackPosition.parentNode.replaceChild(cloneCard, stackPosition);
-}
-card1.addEventListener('click', function (){
-  sendCardToStack(card1)}
-  );
-card2.addEventListener('click', function (){
-    sendCardToStack(card2)}
-  );
-card3.addEventListener('click', function (){
-  sendCardToStack(card3)}
-  );  
-card4.addEventListener('click', function (){
-  sendCardToStack(card4)}
-  );
-card5.addEventListener('click', function (){
-  sendCardToStack(card5)}
-  );
-
-*/
 

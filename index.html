@@ -13,7 +13,10 @@
     <div class = "container">
         <div id= "start-screen">
             <h1>Welcome - Mau Mau Game </h1>
-            <button id="btn-start" type="submit" onclick="">START</button>
+            <div id=>
+                    <button id="btn-start" type="submit" onclick="">START</button>
+            </div>
+            
         </div>
         <div id="gameover-screen">
           <h1> GAME OVER</h1>
@@ -21,24 +24,29 @@
         </div>
         <div id="container-cards">
             <h1>MAU MAU</h1>
+            <div id ="cards-hand-2">
+                <h2>Player 2</h2>
+                <img src="images/newcards/10-Clubs.png" alt="">   
+                <img src="images/newcards/10-Clubs.png" alt="">
+                <img src="images/newcards/10-Clubs.png" alt="">
+                <img src="images/newcards/10-Clubs.png" alt="">
+                <img src="images/newcards/10-Clubs.png" alt="">
+            </div>
             <div id="cards-dealer">           
 
             </div>
             <div id ="cards-table">
             
             </div>
+            <h2>Player 1</h2>
             <div id ="cards-hand">
                 
-            </div>
-            <div id ="cards-hand-2">
                 
-                </div>
-            <div id ="cards-hand-hide">
-                <div class ="cards">
-                </div>        
             </div>
-            <button id = "btn-hide" type="submit">show-hide</button>
-            <button id = "btn-gameover" type="submit">GameOver</button>
+            <div id ="cards-hand-hide">
+                <button id = "btn-hide" type="submit">show-hide</button>
+                <button id = "btn-gameover" type="submit">GameOver</button>
+            </div>
         </div>
     </div>
     <script src ="./js/main.js"></script>
