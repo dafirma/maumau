@@ -1,5 +1,5 @@
 console.log('hola');
-let button1 = document.getElementById('btn-hide');
+let buttonHide = document.getElementById('btn-hide');
 let start = document.getElementById('btn-start');
 let gameOver = document.getElementById('btn-gameover');
 let restart = document.getElementById('btn-restart');
@@ -16,18 +16,22 @@ start.addEventListener('click', function(){
   startButton();
 });
 
-button1.addEventListener('click', function(){
-  showHide();
+buttonHide.addEventListener('click', function(){
+  turnPlayer();
 });
 
 // Restart Button
 function restartButton(){
+  console.log('button');
+  window.location.reload();
+  
+  /*
   let gameScreen = document.getElementById('container-cards');
   let gameOverScreen = document.getElementById('gameover-screen');
   let startScreen = document.getElementById('start-screen');
   startScreen.style.display = 'block';
   gameOverScreen.style.display = 'none';
-  
+  */
 }
 
 //Game Over Button
@@ -51,6 +55,26 @@ function startButton(){
 }
 
 // show hide card button 
+
+function turnPlayer(){
+
+  var cardHand = document.getElementById('cards-hand');
+  var cardHandHide = document.getElementById('cards-hand-hide');
+  var img = document.createElement('img');
+  img.src = 'images/newcards/back.png';
+  if(cardHand && cardHand.style.display ==='flex'){
+    cardHand.style.display ==='none';
+    cardHandHide.style.display ==='flex';
+    //cardHandHide.appendChild(img);
+  }else {
+    cardHand.style.display = 'flex';
+    cardHandHide.style.display = 'none';
+  }
+
+}
+
+
+
 
 function showHide() {
   var el = document.getElementById('cards-hand');
