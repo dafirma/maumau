@@ -15,6 +15,7 @@ body {
 #start{
   top:500px;
   left:700px;
+  size: 50%;
 }
 #btn-start{
   padding:10px;

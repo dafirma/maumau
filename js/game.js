@@ -1,7 +1,20 @@
 function Game (){
-  this.player1 = new Player('Hugo');
-
+  //this.player1 = new Player('Hugo');
+  //this.players = [new Player('Hugo'), new Player('Anna')];
+  //this.player1 = new Player(test);
+  //this.player2 = new Player('test2');
+  this.turn = 0;
+  this.cards = []; //ok
+  this.deck = makeDeck; //ok
+  this.shuffle = allCardsShuffle; //ok
+  this.deal = allCardsDeal;
+  this.addCard = allCardsAdd;
+  this.cardCount = allCardsCount; //ok
+  
 }
+var players =[new Player('Hugo1'), new Player('Anna')];
+
+/*
 function Allcards(){
  this.cards = []; //ok
  this.deck = makeDeck; //ok
@@ -10,7 +23,8 @@ function Allcards(){
  this.addCard = allCardsAdd;
  this.cardCount = allCardsCount; //ok
 
-}
+}*/
+
 // HOW TO CREATE A TURN FOR THE PLAYER 2 ???
 function makeDeck(){
   var suit = new Array("Spades", "Diamonds", "Clubs", "Hearts");
@@ -18,12 +32,9 @@ function makeDeck(){
   this.cards = [];
     for (var i = 0; i < suit.length; i++){
       for (var x = 0; x < values.length; x++){
-        //this.cards = {value:values[x],suit:suits[i]};
-        //deck.push(this.cards);
         this.cards.push(new Card(values[x], suit[i]));       
       }
-    }	
-  //console.log(deck)
+    }
 	console.log (this.cards);
 }
 
@@ -63,7 +74,7 @@ function allCardsCount(){
   return this.cards.length;
 }
 
-
+/*
 function allCardsAdd(){ //card
   //this.cards.push(card);
   hand.push(this.cards[0]);
@@ -71,6 +82,7 @@ function allCardsAdd(){ //card
   console.log(hand);
   //imgToDom();
 }
+*/
 
 function imgToDom(){
   this.hand.forEach(function(card, i, array){
@@ -78,7 +90,7 @@ function imgToDom(){
     img.src = card.image;
     img.setAttribute("data-suit", card.suit);
     img.setAttribute("data-number", card.number);
-    var parent = document.getElementById('cards-hand');
+    var parent = document.getElementById('cards-hand');// $ to change between divs card-hand and card-hand2
     parent.appendChild(img);
   });
 }
@@ -91,12 +103,11 @@ function imgToTable(){
   img.src = this.table[0].image;
   var src = document.getElementById("cards-table");
   src.appendChild(img);
-
 }
 
 
-function detectCard(){
-  var img = document.querySelectorAll("#cards-hand img");
+function detectCard(turn){
+  var img = document.querySelectorAll(`#cards-hand${turn} img`);
   console.log(img);
   console.log(img[0]);
   var dataSuit;
@@ -125,6 +136,7 @@ function matchCardsNew(number,suit){
     sendCardToTable(number,suit);
     deleteCard(number,suit);
     detectCard();
+    // function to check how many card and if who has less card can win
     turnPlayer();
     alert('PLAYER 2, IT\'S YOUR TURN!');
   }else{
@@ -183,12 +195,6 @@ function deleteCardDom(index,number,suit){
   changeAtt.setAttribute("data-number",number);
   hand.removeChild(hand.childNodes[index+1]);
   table.appendChild(changeAtt);
-  //console.log(changeAtt);
-  //console.log(hand);
-  //sendCardToTable(hand[i]);
-  //console.log(table);
-  //console.log(table.childNodes[1]);
-  //table.appendChild(hand.childNodes[index +1]); //ok
   buyCard();
 
 
@@ -214,7 +220,12 @@ function backCard(){
   var imgBackCard = document.createElement('img');
   imgBackCard.src = `images/newcards/back.png`;
   var src = document.getElementById("cards-dealer");
-  if(allCardsCount() > 0){  
+  if(allCardsCount() > 0){  //console.log(changeAtt);
+    //console.log(hand);
+    //sendCardToTable(hand[i]);
+    //console.log(table);
+    //console.log(table.childNodes[1]);
+    //table.appendChild(hand.childNodes[index +1]); //ok
     src.appendChild(imgBackCard);
 
   }else {
@@ -225,34 +236,27 @@ function backCard(){
 //////////////////////////////////////////////////
 // game
 var deck;
-var hand = [];
-var hand2 =[];
+//var hand = [];
+//var hand2 =[];
 var table = [];
-function initGame(){
-  deck = null;
-  //deck = new Allcards();
-  //hand = new Allcards();
-  //table = new Allcards();
-  hand2 = new Allcards();
+deck = null;
+console.log('hola');
+console.log(deck);
 
-  //deck.deck(); //to create the deck
-  console.log('hola');
- console.log(deck);
-
-}
 function startGame(){
-  makeDeck();
-  allCardsShuffle();
-  img();
-  dealToTable();
-  dealToHand();
-  backCard();
-  imgToDom();
-  imgToTable();
-  detectCard();
-  turnPlayer();
+  makeDeck(); //ok
+  allCardsShuffle(); //ok
+  img(); //ok 
+  dealToTable(); //ok
+  //dealToHand();
+  //backCard();
+  //imgToDom();
+  //imgToTable();
+  //detectCard();
+  //turnPlayer();
   console.log('ok');
 }
+
 function gameOverGame(){
   if(allCardsCount === 0){
     var screen = getElementById('')
@@ -286,14 +290,32 @@ function dealToTable(){
 
 }
 function dealToHand(){
-  for (var i = hand.length; i < 5; i++){
-      hand.push(this.cards[0]);
+  this.players.forEach(function(elem){
+    for(var i =0; i < 5; i++){
+      elem.hand.push(this.cards[0]);
       this.cards.shift();
     }
-  console.log(hand); // to check ok
+  });console.log('ok');
 }
 
+/*
 
+function dealToHand(){
+  /*this.players.forEach(function(elem) {
+    for
+    elem.hand.push(this.cards[0]);
+  });
+  for (var i = hand.length; i < 5; i++){
+    this.player1.hand.push(this.cards[0]);
+
+    hand.push(this.cards[0]);
+    this.cards.shift();
+  }
+  console.log(hand); // to check ok
+}
+*/
+
+/*
 function canPlay(){
     // how to access the card suit/number??? 
   let tableCard = this.table;
@@ -314,7 +336,7 @@ function canPlay(){
       console.log('no you cannot play');
 
   } 
-}
+} */
 function matchCards(){
   var arrHand = this.hand;
   var arrTable = this.table;
