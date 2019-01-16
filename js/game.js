@@ -1,18 +1,14 @@
+let game;
+
 function Game (){
   //this.player1 = new Player('Hugo');
-  //this.players = [new Player('Hugo'), new Player('Anna')];
+  this.players = [new Player('Hugo'), new Player('Anna')];
   //this.player1 = new Player(test);
   //this.player2 = new Player('test2');
   this.turn = 0;
   this.cards = []; //ok
-  this.deck = makeDeck; //ok
-  this.shuffle = allCardsShuffle; //ok
-  this.deal = allCardsDeal;
-  this.addCard = allCardsAdd;
-  this.cardCount = allCardsCount; //ok
-  
+  this.table = [];
 }
-var players =[new Player('Hugo1'), new Player('Anna')];
 
 /*
 function Allcards(){
@@ -26,7 +22,7 @@ function Allcards(){
 }*/
 
 // HOW TO CREATE A TURN FOR THE PLAYER 2 ???
-function makeDeck(){
+Game.prototype.makeDeck = function(){
   var suit = new Array("Spades", "Diamonds", "Clubs", "Hearts");
   var values = new Array("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K");
   this.cards = [];
@@ -38,18 +34,18 @@ function makeDeck(){
 	console.log (this.cards);
 }
 
-function allCardsShuffle(){
+Game.prototype.allCardsShuffle = function(){
   for (let i=0; i < this.cards.length-2; i++){
     let random = Math.floor(Math.random()*(this.cards.length -i)) + i;
     let j = this.cards[i];
     this.cards[i] = this.cards[random];
     this.cards[random] = j;
   }
-  img();
+  this.img();
   console.log(this.cards);
 }
 
-function img(){
+Game.prototype.img = function(){
   this.cards.forEach(card => {
     card.image = `images/newcards/${card.number}-${card.suit}.png`;
     //console.log(card.number);
@@ -70,7 +66,7 @@ function allCardsDeal(){
   }
 }
 
-function allCardsCount(){
+Game.prototype.allCardsCount = function(){
   return this.cards.length;
 }
 
@@ -84,19 +80,20 @@ function allCardsAdd(){ //card
 }
 */
 
-function imgToDom(){
-  this.hand.forEach(function(card, i, array){
-    var img = document.createElement('img');
-    img.src = card.image;
-    img.setAttribute("data-suit", card.suit);
-    img.setAttribute("data-number", card.number);
-    var parent = document.getElementById('cards-hand');// $ to change between divs card-hand and card-hand2
-    parent.appendChild(img);
-  });
+Game.prototype.imgToDom = function(){
+  for(var i = 0; i <= 1; i++){
+    for(var j = 0; j < this.players[i].hand.length; j++){
+      var img = document.createElement('img');
+      img.src = this.players[i].hand[j].image;
+      img.setAttribute("data-suit", this.players[i].hand[j].suit);
+      img.setAttribute("data-number", this.players[i].hand[j].number);
+      var parent = document.getElementById(`cards-hand-${i}`);// $ to change between divs card-hand and card-hand2
+      parent.appendChild(img);
+    }
+  }
 }
-
-
-function imgToTable(){
+  
+Game.prototype.imgToTable = function(){
   console.log(this.table);
   console.log(this.table.image);
   var img = document.createElement('img');
@@ -105,28 +102,23 @@ function imgToTable(){
   src.appendChild(img);
 }
 
-
-function detectCard(turn){
-  var img = document.querySelectorAll(`#cards-hand${turn} img`);
-  console.log(img);
-  console.log(img[0]);
+Game.prototype.detectCard = function(){
+  console.log(this.players[0].hand);
   var dataSuit;
   var dataNumber;
-  var positionImg;
-  for(var i = 0; i < this.hand.length; i++){
-    img[i].addEventListener("click", function(e){
+  for(var i = 0; i <= 1; i++){
+    for(var j = 0; j < this.players[i].hand.length; j++){
+      var img = document.querySelectorAll(`#cards-hand-${i} img`);
+      img[j].addEventListener("click", function(e){
       //console.log(e.currentTarget.dataset.number);
       dataNumber = e.currentTarget.dataset.number;
       dataSuit = e.currentTarget.dataset.suit;
-      //positionImg = img[0];
-      //var srcImgNew = srcImg.slice(54);
-      //console.log(positionImg);
       matchCardsNew(dataNumber,dataSuit);
-      //deleteCardDom(positionImg);
-    })
+    });
   }
 }
-function matchCardsNew(number,suit){
+}
+Game.prototype.matchCardsNew = function(number,suit){
   //console.log(this.table);
   console.log(number,suit);
   var tempHand = hand;
@@ -216,43 +208,32 @@ function sendCardToTable(number,suit){
   console.log( 'card to send to table: ' + number,suit);
 }
 
-function backCard(){
+Game.prototype.backCard = function(){
   var imgBackCard = document.createElement('img');
   imgBackCard.src = `images/newcards/back.png`;
   var src = document.getElementById("cards-dealer");
-  if(allCardsCount() > 0){  //console.log(changeAtt);
-    //console.log(hand);
-    //sendCardToTable(hand[i]);
-    //console.log(table);
-    //console.log(table.childNodes[1]);
-    //table.appendChild(hand.childNodes[index +1]); //ok
+  if(game.allCardsCount() > 0){
     src.appendChild(imgBackCard);
-
-  }else {
+   }else {
     console.log('cards');
   }
 }
 
-//////////////////////////////////////////////////
-// game
-var deck;
-//var hand = [];
-//var hand2 =[];
-var table = [];
-deck = null;
 console.log('hola');
-console.log(deck);
+
 
 function startGame(){
-  makeDeck(); //ok
-  allCardsShuffle(); //ok
-  img(); //ok 
-  dealToTable(); //ok
-  //dealToHand();
-  //backCard();
-  //imgToDom();
-  //imgToTable();
-  //detectCard();
+  game = new Game();
+  game.makeDeck(); //ok
+  game.allCardsShuffle(); //ok
+  //img(); //ok 
+  game.dealToTable(); //ok
+  game.dealToHand();
+  game.backCard();
+  game.imgToDom();
+  game.imgToTable();
+  game.detectCard();
+  game.matchCardsNew()
   //turnPlayer();
   console.log('ok');
 }
@@ -264,20 +245,7 @@ function gameOverGame(){
 
 }
 
-
-function shuffle(){
-  //console.log(this.cards);
-   this.cards.allCardsShuffle();
-  console.log(this.cards);
-  /*if (this.cards === 0){
-    console.log('deck empty');
-  }else {
-    this.cards.shuffle();
-   console.log(this.cards);
-  }*/
-}
-
-function dealToTable(){
+Game.prototype.dealToTable = function(){
   if(this.cards.length > 0){
     this.table.push(this.cards[0]);
     this.cards.shift();
@@ -289,63 +257,14 @@ function dealToTable(){
   }
 
 }
-function dealToHand(){
-  this.players.forEach(function(elem){
+Game.prototype.dealToHand = function(){
+  this.players.forEach(function (elem){
+    console.log(this.cards)
     for(var i =0; i < 5; i++){
       elem.hand.push(this.cards[0]);
-      this.cards.shift();
+      this.cards.shift(); // losing the reference in this cards
     }
-  });console.log('ok');
-}
-
-/*
-
-function dealToHand(){
-  /*this.players.forEach(function(elem) {
-    for
-    elem.hand.push(this.cards[0]);
-  });
-  for (var i = hand.length; i < 5; i++){
-    this.player1.hand.push(this.cards[0]);
-
-    hand.push(this.cards[0]);
-    this.cards.shift();
-  }
-  console.log(hand); // to check ok
-}
-*/
-
-/*
-function canPlay(){
-    // how to access the card suit/number??? 
-  let tableCard = this.table;
-  let handCard = this.hand;
-  let tableValue = tableCard.number;
-  let tableSuit = tableCard.suit;
-  //console.log(tableCard); ok
-  //console.log(tableValue); ok
-  //console.log(tableSuit); ok
-  // console.log(handCard); ok
-  if (handCard.some(item => item.number === tableValue)){
-      console.log('yes, you can play. value ok');
-      matchCards();
-  }else if (handCard.some(item => item.suit === tableSuit)){
-      console.log('yes, you can play. suit ok');
-      matchCards();
-  }else{
-      console.log('no you cannot play');
-
-  } 
-} */
-function matchCards(){
-  var arrHand = this.hand;
-  var arrTable = this.table;
-  
-
- //to identify the card
-}
-
-function renderCards (){
-
-}
+  }.bind(this));
+  console.log('ok');
+};
 

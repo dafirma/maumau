@@ -78,23 +78,23 @@ h2{
   height: 15%;
 }
 
-#cards-hand{
+#cards-hand-0{
   padding-top:20px;
   display: flex;
   max-width: 600px;
 }
-#cards-hand img{
+#cards-hand-0 img{
   width: 15%;
   height: 15%;
   padding-right:10px;
 }
 
-#cards-hand-2 {
+#cards-hand-1 {
   padding-top:30px;
   display: flex;
 }
 
-#cards-hand-2 img{
+#cards-hand-1 img{
   width: 15%;
   height: 15%;
   padding-left: 10px;
