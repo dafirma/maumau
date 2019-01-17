@@ -1,0 +1,148 @@
+*{
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-image: url("../images/background_green.jpg");
+  background-size: 100%;
+  height: 500px;
+}
+.container{
+  position: relative;
+  max-width: 60%;
+  
+}
+#start{
+  top:500px;
+  left:700px;
+  size: 50%;
+}
+#btn-start{
+  padding:10px;
+  font-size: 30px;
+  border-radius: 0.5em;
+  background-color: red;
+  color: white;
+  font-family: Arial;
+  position: relative;
+  top:50px;
+  left:450px;
+}
+.img-start{
+  padding-top: 150px;
+  padding-left: 300px;
+}
+
+h1{
+  text-align: center;
+  color: white;
+  font-size: 40px;
+}
+
+h2{
+  color: white;
+  padding-right: 15px;
+}
+
+#container-cards{
+  /*
+  position:absolute;*/
+  padding-left: 150px;
+  padding-top: 10px;
+  display: none;
+  max-width: 60%;
+}
+
+#cards-dealer{
+  display: flex;
+  padding-left: 10px;
+  padding-top: 30px;
+  clear: both;
+
+}
+#cards-dealer img {
+  width: 15%;
+  height: 15%;
+  padding-left: 10px;
+}
+
+#cards-table{
+  padding-left: 10px;
+  position: relative;
+  top:10px;
+  left:250px ;
+}
+
+#cards-table img {
+  width: 15%;
+  height: 15%;
+}
+
+#cards-hand-0{
+  padding-top:20px;
+  display: flex;
+  max-width: 600px;
+}
+#cards-hand-0 img{
+  width: 15%;
+  height: 15%;
+  padding-right:10px;
+}
+
+#cards-hand-1 {
+  padding-top:30px;
+  display: flex;
+}
+
+#cards-hand-1 img{
+  width: 15%;
+  height: 15%;
+  padding-left: 10px;
+}
+
+#cards-hand-hide{
+  padding-top:50px;
+  display: none;
+}
+
+#start-screen{
+  display:block;
+}
+#start-screen h1{
+  padding-top: 100px;
+}
+#container-hide-player1{
+  padding-top: 20px;
+}
+
+#gameover-screen{
+  display:none;
+}
+/*
+.container{
+  max-width: 80%;
+}
+
+footer {
+
+  background-repeat: no-repeat;
+  
+}
+.main-title {
+text-align: center;
+
+}
+.container-dealer{
+  display:flex;
+  flex-direction: row;
+  padding-bottom: 50px;
+}
+#container-cards{
+  display: flex;
+  clear: both;
+  padding-bottom: 50px;
+}
+.img-card{
+  max-width: 50%;
+}
+*/

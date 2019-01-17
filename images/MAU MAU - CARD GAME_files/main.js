@@ -55,7 +55,7 @@ function startButton(){
 }
 
 // show hide card button 
-/*
+
 function turnPlayer(){
 
   var cardHand = document.getElementById('cards-hand');
@@ -72,7 +72,7 @@ function turnPlayer(){
   }
 
 }
-*/
+
 
 
 

@@ -3,6 +3,6 @@ function Player (name){
   this.hand = [];
   
 }
-
+console.log('file player ok')
 
 
