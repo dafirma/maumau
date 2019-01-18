@@ -1,17 +1,12 @@
 let game;
 
 function Game (){
-  //this.player1 = new Player('Hugo');
   this.players = [new Player('Hugo'), new Player('Anna')];
-  //this.player1 = new Player(test);
-  //this.player2 = new Player('test2');
   this.turn = 0;
   this.cards = []; //ok
   this.table = [];
 }
 
-
-// HOW TO CREATE A TURN FOR THE PLAYER 2 ???
 Game.prototype.makeDeck = function(){
   var suit = new Array("Spades", "Diamonds", "Clubs", "Hearts");
   var values = new Array("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K");
@@ -55,7 +50,6 @@ Game.prototype.allCardsCount = function(){
   return this.cards.length;
 }
 
-
 Game.prototype.imgToDom = function(){
   for(var i = 0; i <= 1; i++){
     for(var j = 0; j < this.players[i].hand.length; j++){
@@ -63,7 +57,7 @@ Game.prototype.imgToDom = function(){
       img.src = this.players[i].hand[j].image;
       img.setAttribute("data-suit", this.players[i].hand[j].suit);
       img.setAttribute("data-number", this.players[i].hand[j].number);
-      var parent = document.getElementById(`cards-hand-${i}`);// $ to change between divs card-hand and card-hand2
+      var parent = document.getElementById(`cards-hand-${i}`);
       parent.appendChild(img);
     }
   }
@@ -80,21 +74,20 @@ Game.prototype.detectCard = function(){
   var dataSuit;
   var dataNumber;
   console.log(game.turn);
-  if (game.turn === 0){
+  if(game.turn === 0){ // try to put the gameover function in this function.
       for(var j = 0; j < this.players[game.turn].hand.length; j++){
         var img = document.querySelectorAll(`#cards-hand-${game.turn} img`);
         img[j].addEventListener("click", function(e){
-        //console.log(e.currentTarget.dataset.number);
+        console.log(`click: ${j - 1}` );
         dataNumber = e.currentTarget.dataset.number;
         dataSuit = e.currentTarget.dataset.suit;
-        game.matchCardsNew(dataNumber,dataSuit);
+        game.matchCardsNew(dataNumber,dataSuit,j);
       });
     }
-  } else if (game.turn === 1){
+  } else if(game.turn === 1){
     for(var j = 0; j < this.players[game.turn].hand.length; j++){
       var img = document.querySelectorAll(`#cards-hand-${game.turn} img`);
       img[j].addEventListener("click", function(e){
-      //console.log(e.currentTarget.dataset.number);
       dataNumber = e.currentTarget.dataset.number;
       dataSuit = e.currentTarget.dataset.suit;
       game.matchCardsNew(dataNumber,dataSuit);
@@ -104,45 +97,29 @@ Game.prototype.detectCard = function(){
 }
 
 //CHECK FUNCTION MATCH CARDS NEW
-Game.prototype.matchCardsNew = function(number,suit){
-  //console.log(this.table);
-  console.log(this.turn);
-  console.log(number,suit);
+Game.prototype.matchCardsNew = function(number,suit,j){
   if(this.turn === 0){
-    if(number === this.table[this.table.length-1].number || suit === this.table[this.table.length-1].suit){
+    if(number === this.table[0].number || suit === this.table[0].suit){
       console.log('match');
       alert('PLAYER 2, IT\'S YOUR TURN!');
-      console.log(number,suit);
-      //game.sendCardToTable(number,suit);
-      game.deleteCard(number,suit, this.turn);
-      //game.detectCard();
-      // function to check how many card and if who has less card can win
-      game.turnPlayer(this.turn);
+      game.deleteCard(number,suit, this.turn,j);
     }else{
       console.log('no match');
       console.log(number,suit);
       alert ('WRONG CARD, TRY OTHER CARD OR BUY FROM THE PILE. THE CARD MUST BE THE SAME NUMBER OR SAME SUIT.');
       game.buyCard(this.turn);
-      //game.detectCard();
-      game.turnPlayer(this.turn);
     }
-  }else if (this.turn === 1){
-    if(number === this.table[this.table.length-1].number || suit === this.table[this.table.length-1].suit){
+  }else if(this.turn === 1){
+    if(number === this.table[0].number || suit === this.table[0].suit){
       console.log('match');
       alert('PLAYER 1, IT\'S YOUR TURN!');
       console.log(number,suit);
-      //game.sendCardToTable(number,suit);
       game.deleteCard(number,suit, this.turn);
-      //game.detectCard();
-      // function to check how many card and if who has less card can win
-      game.turnPlayer(this.turn);
     }else{
       console.log('no match');
       console.log(number,suit);
       alert ('WRONG CARD, TRY OTHER CARD OR BUY FROM THE PILE. THE CARD MUST BE THE SAME NUMBER OR SAME SUIT.');
       game.buyCard(this.turn);
-      //game.detectCard();
-      game.turnPlayer(this.turn);
     }
   }
 }
@@ -151,19 +128,19 @@ Game.prototype.buyCard = function(turn){
   var cardDealer = document.getElementById('cards-dealer');
   console.log(this.players[0].hand);
   console.log(this.players);
-  if (turn === 0){
+  if(turn === 0){
     if(this.cards.length > 0){
       cardDealer.addEventListener("click", function(){
-      var nextCard = game.cards[0];
-      console.log(nextCard);
-      this.players[turn].hand.push(nextCard);
-      this.cards.shift();
-      game.sendCardToHand(this.players[turn].hand[this.players[turn].hand.length-1],turn);
-      game.detectCard();
-      game.turnPlayer(turn);
-      alert('PLAYER 1, IT\'S YOUR TURN!');    
+        var nextCard = game.cards[0];
+        console.log(nextCard);
+        this.players[turn].hand.push(nextCard);
+        this.cards.shift();
+        game.sendCardToHand(this.players[turn].hand[this.players[turn].hand.length-1],turn);
+        this.turn = 1;
+        game.detectCard();
+        alert('PLAYER 1, IT\'S YOUR TURN!');    
     }.bind(this));
-  }else {
+  }else{
     console.log('pile empty.');
     }
   }else if(turn === 1){
@@ -174,15 +151,16 @@ Game.prototype.buyCard = function(turn){
         this.players[turn].hand.push(nextCard);
         this.cards.shift();
         game.sendCardToHand(this.players[turn].hand[this.players[turn].hand.length-1],turn);
+        this.turn = 0;
         game.detectCard();
-        game.turnPlayer(turn);
+        console.log('ok');
         alert('PLAYER 2, IT\'S YOUR TURN!');    
       }.bind(this));
-    } else {
-        console.log('pile empty.');
-      }
-    } 
-  }
+    }else{
+      console.log('pile empty.');
+    }
+  } 
+}
 
 
 Game.prototype.sendCardToHand = function(card, turn){
@@ -207,9 +185,8 @@ Game.prototype.sendCardToHand = function(card, turn){
   }
 }
 
- Game.prototype.deleteCardDom = function(index,number,suit,turn){
+ Game.prototype.deleteCardDom = function(index,number,suit,turn,cardToTable){
    if(turn === 0){
-     var i = index;
      var hand = document.getElementById(`cards-hand-${turn}`);
      var table = document.getElementById('cards-table');
      console.log(`image/newcards/${number}-${suit}.png`);
@@ -217,10 +194,13 @@ Game.prototype.sendCardToHand = function(card, turn){
      changeAtt.src = `images/newcards/${number}-${suit}.png`;
      changeAtt.setAttribute("data-suit", suit);
      changeAtt.setAttribute("data-number",number);
-     hand.removeChild(hand.childNodes[index+1]);
+     hand.removeChild(hand.childNodes[index]);
      table.appendChild(changeAtt);
+     console.log(changeAtt);
+     this.table.shift();
+     this.table.push(cardToTable);
+     console.log('arr table:' + this.table);
    }else if(turn === 1){
-     var i = index;
      var hand = document.getElementById(`cards-hand-${turn}`);
      var table = document.getElementById('cards-table');
      console.log(`image/newcards/${number}-${suit}.png`);
@@ -228,37 +208,52 @@ Game.prototype.sendCardToHand = function(card, turn){
      changeAtt.src = `images/newcards/${number}-${suit}.png`;
      changeAtt.setAttribute("data-suit", suit);
      changeAtt.setAttribute("data-number",number);
-     hand.removeChild(hand.childNodes[index+1]);
+     console.log(hand);
+     hand.removeChild(hand.childNodes[index]);
      table.appendChild(changeAtt);
+     this.table.shift();
+     this.table.push(cardToTable);
     }  
 }
 
 
-Game.prototype.deleteCard = function(number,suit,turn){
+Game.prototype.deleteCard = function(number,suit,turn,j){
   console.log(turn);
   if(turn === 0){
     for(var i = 0; i < this.players[turn].hand.length; i++){
       if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
-        var cardToDelete = i;
+        var cardToDelete = j;
         console.log('ok');
-        game.deleteCardDom(cardToDelete,number,suit,turn);
-        this.players[turn].hand.shift(i);
+        this.turn = 1;
+        var cardToTable = this.players[turn].hand[i];
+        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,j);
+        this.players[0].hand.splice(cardToDelete,1); // error is deleting the first element of array 
+        game.detectCard();
       }
     }
-  }else if (turn === 1){ //CHECK LATER
+  }else if(turn === 1){ //CHECK LATER
     for(var i = 0; i < this.players[turn].hand.length; i++){
       if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
-        var cardToDelete = i;
+        var cardToDelete = j;
         console.log('ok');
-        game.deleteCardDom(cardToDelete,number,suit,turn);
-        this.players[turn].hand.shift(i);
+        this.turn = 0;
+        var cardToTable = this.players[turn].hand[i];
+        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,j);
+        this.players[1].hand.splice(cardToDelete,1);
+        //this.players[1].hand.shift(cardToDelete);>
+        game.detectCard();
       }
     }
   } 
 }
 Game.prototype.sendCardToTable = function(number,suit){
   var table = document.getElementById('cards-table');
-  console.log( 'card to send to table: ' + number,suit);
+  console.log(`image/newcards/${number}-${suit}.png`);
+  var changeAtt = table.childNodes[1];
+  changeAtt.src = `images/newcards/${number}-${suit}.png`;
+  changeAtt.setAttribute("data-suit", suit);
+  changeAtt.setAttribute("data-number",number);
+  table.appendChild(changeAtt);
 }
 
 Game.prototype.backCard = function(){
@@ -286,11 +281,16 @@ function startGame(){
   console.log('ok startGame function');
 }
 
-function gameOverGame(){
-  if(allCardsCount === 0){
-    var screen = getElementById('')
+Game.prototype.gameOverGame = function(turn){
+  if(turn === 0){
+    if(allCardsCount === 0){
+      alert('PLAYER 1 WIN!!!')
+    }
+  }else if(turn === 1){
+    if(allCardsCount === 0){
+      alert('PLAYER 2 WIN!!!')
+    }
   }
-
 }
 
 Game.prototype.dealToTable = function(){
@@ -312,16 +312,16 @@ Game.prototype.dealToHand = function(){
   console.log('ok');
 };
 
-Game.prototype.turnPlayer = function(turn){
+Game.prototype.turnPlayer = function(turn){ // alone for the pop up
   if(turn === 0){
     //let popupPlayer1 = document.getElementById('popup-player1');
     //popupPlayer1.style.display = 'block';
     //game.buttonScreen();
-    this.turn = 1;
-    game.detectCard();
+    //this.turn = 1;
+    //game.detectCard();
   }else if(turn === 1){
-    this.turn = 0;
-    game.detectCard();
+    //this.turn = 0;
+    //game.detectCard();
   }
 }
 
