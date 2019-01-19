@@ -83,29 +83,6 @@ Game.prototype.detectCard = function(){
       game.matchCardsNew(dataNumber,dataSuit, index);
     });
   });
-  // if(game.turn === 0){ // try to put the gameover function in this function.
-    this.players[game.turn].hand.forEach((card, index, arrray) => {
-      
-    });
-  //     for(var j = 0; j < this.players[game.turn].hand.length; j++){
-  //       var img = document.querySelectorAll(`#cards-hand-${game.turn} img`);
-  //       img[j].addEventListener("click", function(e){
-  //       console.log(`click: ${j - 1}` );
-  //       dataNumber = e.currentTarget.dataset.number;
-  //       dataSuit = e.currentTarget.dataset.suit;
-  //       game.matchCardsNew(dataNumber, dataSuit, j);
-  //     });
-  //   }
-  // } else if(game.turn === 1){
-  //     for(var j = 0; j < this.players[game.turn].hand.length; j++){
-  //       var img = document.querySelectorAll(`#cards-hand-${game.turn} img`);
-  //       img[j].addEventListener("click", function(e){
-  //       dataNumber = e.currentTarget.dataset.number;
-  //       dataSuit = e.currentTarget.dataset.suit;
-  //       game.matchCardsNew(dataNumber, dataSuit, j);
-  //     });
-  // }
-//  }
 }
 
 //CHECK FUNCTION MATCH CARDS NEW
@@ -197,31 +174,28 @@ Game.prototype.sendCardToHand = function(card, turn){
   }
 }
 
- Game.prototype.deleteCardDom = function(index,number,suit,turn,cardToTable,newIndex){
-   if(turn === 0){
-     var hand = document.getElementById(`cards-hand-${turn}`);
-     var table = document.getElementById('cards-table');
-     console.log(`image/newcards/${number}-${suit}.png`);
-     var changeAtt = table.childNodes[1];
-     changeAtt.src = `images/newcards/${number}-${suit}.png`;
-     changeAtt.setAttribute("data-suit", suit);
-     changeAtt.setAttribute("data-number",number);
-     hand.removeChild(hand.childNodes[newIndex]);
-     table.appendChild(changeAtt);
-     console.log(changeAtt);
+ Game.prototype.deleteCardDom = function(index,number,suit,turn,cardToTable){
+  console.log('index to delete:' + index) 
+  if(turn === 0){
+    var table = document.getElementById('cards-table');
+    console.log(`image/newcards/${number}-${suit}.png`);
+    var changeAtt = table.childNodes[1];
+    changeAtt.src = `images/newcards/${number}-${suit}.png`;
+    changeAtt.setAttribute("data-suit", suit);
+    changeAtt.setAttribute("data-number",number);
+    table.appendChild(changeAtt);
+    console.log(changeAtt);
+    $(`#cards-hand-${turn}`).children()[index].remove();
      this.table.shift();
      this.table.push(cardToTable);
-     console.log('arr table:' + this.table);
    }else if(turn === 1){
-     var hand = document.getElementById(`cards-hand-${turn}`);
      var table = document.getElementById('cards-table');
      console.log(`image/newcards/${number}-${suit}.png`);
      var changeAtt = table.childNodes[1];
      changeAtt.src = `images/newcards/${number}-${suit}.png`;
      changeAtt.setAttribute("data-suit", suit);
      changeAtt.setAttribute("data-number",number);
-     console.log(hand);
-     hand.removeChild(hand.childNodes[newIndex]);
+     $(`#cards-hand-${turn}`).children()[index].remove();
      table.appendChild(changeAtt);
      this.table.shift();
      this.table.push(cardToTable);
@@ -235,11 +209,10 @@ Game.prototype.deleteCard = function(number, suit, turn, index){
     for(var i = 0; i < this.players[turn].hand.length; i++){
       if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
         var cardToDelete = index;
-        console.log('ok');
         this.turn = 1;
         var cardToTable = this.players[turn].hand[i];
-        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,index);
-        this.players[turn].hand.splice(index,1); // error is deleting the first element of array 
+        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable);
+        this.players[turn].hand.splice(index,1); 
         game.detectCard();
       }
     }
@@ -247,10 +220,9 @@ Game.prototype.deleteCard = function(number, suit, turn, index){
     for(var i = 0; i < this.players[turn].hand.length; i++){
       if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
         var cardToDelete = index;
-        console.log('ok');
         this.turn = 0;
         var cardToTable = this.players[turn].hand[i];
-        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,index);
+        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable);
         this.players[turn].hand.splice(index,1);
         game.detectCard();
       }
