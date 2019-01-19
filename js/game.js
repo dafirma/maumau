@@ -186,9 +186,10 @@ Game.prototype.sendCardToHand = function(card, turn){
     table.appendChild(changeAtt);
     console.log(changeAtt);
     $(`#cards-hand-${turn}`).children()[index].remove();
-     this.table.shift();
-     this.table.push(cardToTable);
-   }else if(turn === 1){
+    this.table.shift();
+    this.table.push(cardToTable);
+  }else if(turn === 1){
+    console.log('index to delete:' + index);
      var table = document.getElementById('cards-table');
      console.log(`image/newcards/${number}-${suit}.png`);
      var changeAtt = table.childNodes[1];
@@ -252,10 +253,9 @@ Game.prototype.backCard = function(){
 
 function startGame(){
   game = new Game();
-  game.makeDeck(); //ok
-  game.allCardsShuffle(); //ok
-  //img(); //ok 
-  game.dealToTable(); //ok
+  game.makeDeck();
+  game.allCardsShuffle();
+  game.dealToTable();
   game.dealToHand();
   game.backCard();
   game.imgToDom();
@@ -289,7 +289,7 @@ Game.prototype.dealToHand = function(){
   this.players.forEach(function (elem){
     for(var i =0; i < 5; i++){
       elem.hand.push(this.cards[0]);
-      this.cards.shift(); // losing the reference in this cards
+      this.cards.shift(); 
     }
   }.bind(this));
   console.log('ok');

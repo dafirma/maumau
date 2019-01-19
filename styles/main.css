@@ -9,6 +9,7 @@ body {
 }
 .container{
   position: relative;
+  left: 350px;
   max-width: 60%;
   
 }
@@ -110,6 +111,7 @@ h2{
 }
 #start-screen h1{
   padding-top: 100px;
+  text-align: center;
 }
 #container-hide-player1{
   padding-top: 20px;
