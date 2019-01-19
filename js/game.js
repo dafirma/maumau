@@ -101,8 +101,9 @@ Game.prototype.matchCardsNew = function(number,suit,j){
   if(this.turn === 0){
     if(number === this.table[0].number || suit === this.table[0].suit){
       console.log('match');
-      alert('PLAYER 2, IT\'S YOUR TURN!');
+      //alert('PLAYER 2, IT\'S YOUR TURN!');
       game.deleteCard(number,suit, this.turn,j);
+      game.turnPlayer(this.turn);
     }else{
       console.log('no match');
       console.log(number,suit);
@@ -115,6 +116,7 @@ Game.prototype.matchCardsNew = function(number,suit,j){
       alert('PLAYER 1, IT\'S YOUR TURN!');
       console.log(number,suit);
       game.deleteCard(number,suit, this.turn);
+      game.turnPlayer(this.turn);
     }else{
       console.log('no match');
       console.log(number,suit);
@@ -227,7 +229,8 @@ Game.prototype.deleteCard = function(number,suit,turn,j){
         this.turn = 1;
         var cardToTable = this.players[turn].hand[i];
         game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,j);
-        this.players[0].hand.splice(cardToDelete,1); // error is deleting the first element of array 
+        this.players[1].hand.shift(i);
+        //this.players[0].hand.splice(cardToDelete,1); // error is deleting the first element of array 
         game.detectCard();
       }
     }
@@ -239,8 +242,7 @@ Game.prototype.deleteCard = function(number,suit,turn,j){
         this.turn = 0;
         var cardToTable = this.players[turn].hand[i];
         game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,j);
-        this.players[1].hand.splice(cardToDelete,1);
-        //this.players[1].hand.shift(cardToDelete);>
+        this.players[1].hand.shift(cardToDelete);
         game.detectCard();
       }
     }
@@ -313,18 +315,33 @@ Game.prototype.dealToHand = function(){
 };
 
 Game.prototype.turnPlayer = function(turn){ // alone for the pop up
-  if(turn === 0){
-    //let popupPlayer1 = document.getElementById('popup-player1');
-    //popupPlayer1.style.display = 'block';
-    //game.buttonScreen();
-    //this.turn = 1;
-    //game.detectCard();
-  }else if(turn === 1){
-    //this.turn = 0;
-    //game.detectCard();
+  popupPlayer1 = document.getElementById('popup-player1');
+  popupPlayer2 = document.getElementById('popup-player2');
+  if(turn === 0 && popupPlayer1.style.display === 'none'){
+    popupPlayer1.style.display = 'block';
+    game.buttonScreen(turn);
+  }else if(turn === 1 && popupPlayer2 === 'none') {
+    popupPlayer1.style.display = 'block';
+    game.buttonScreen();
   }
+   
 }
 
 Game.prototype.buttonScreen = function(){
-
+  let popupPlayer1 = document.getElementById('popup-player-1');
+  let btnPlayer1 = document.getElementById('btn-player1');
+  let divPlayer1 = document.getElementById('cards-hand-1');
+  let divPlayer = document.getElementById('cards-hand-1');
+  if(turn === 0){
+    btnPlayer1.addEventListener('click', function(){
+    popupPlayer1.style.display ='none';
+    divPlayer1.style.displayv ='none';
+    this.turn = 1;
+    });
+  } else if(turn === 1){
+    btnPlayer1.addEventListener('click', function(){
+    popupPlayer1.style.display ='none';
+    divPlayer1.style.displayv ='none';
+    this.turn = 0;});
+  }
 }

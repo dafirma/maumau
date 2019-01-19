@@ -1,5 +1,5 @@
 console.log('hola');
-let buttonHide = document.getElementById('btn-hide');
+let buttonHide = document.getElementById('btn-player1');
 let start = document.getElementById('btn-start');
 let gameOver = document.getElementById('btn-gameover');
 let restart = document.getElementById('btn-restart');
@@ -17,7 +17,7 @@ start.addEventListener('click', function(){
 });
 
 buttonHide.addEventListener('click', function(){
-  turnPlayer();
+  game.turnPlayer();
 });
 
 // Restart Button
@@ -25,13 +25,6 @@ function restartButton(){
   console.log('button');
   window.location.reload();
   
-  /*
-  let gameScreen = document.getElementById('container-cards');
-  let gameOverScreen = document.getElementById('gameover-screen');
-  let startScreen = document.getElementById('start-screen');
-  startScreen.style.display = 'block';
-  gameOverScreen.style.display = 'none';
-  */
 }
 
 //Game Over Button
@@ -71,7 +64,10 @@ function turnPlayer(){
     cardHandHide.style.display = 'none';
   }
 
-}
+}btnPlayer1.addEventListener('click', function(){
+    popupPlayer1.style.display ='none';
+    divPlayer1.style.displayv ='none';
+    this.turn = 1;
 */
 
 
