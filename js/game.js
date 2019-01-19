@@ -113,14 +113,8 @@ Game.prototype.matchCardsNew = function(number,suit,index){
   if(this.turn === 0){
     if(number === this.table[0].number || suit === this.table[0].suit){
       console.log('match');
-<<<<<<< HEAD
-      //alert('PLAYER 2, IT\'S YOUR TURN!');
-      game.deleteCard(number,suit, this.turn,j);
-      game.turnPlayer(this.turn);
-=======
       alert('PLAYER 2, IT\'S YOUR TURN!');
       game.deleteCard(number, suit, this.turn, index);
->>>>>>> devtest
     }else{
       console.log('no match');
       console.log(number,suit);
@@ -132,12 +126,7 @@ Game.prototype.matchCardsNew = function(number,suit,index){
       console.log('match');
       alert('PLAYER 1, IT\'S YOUR TURN!');
       console.log(number,suit);
-<<<<<<< HEAD
-      game.deleteCard(number,suit, this.turn);
-      game.turnPlayer(this.turn);
-=======
       game.deleteCard(number, suit, this.turn, index);
->>>>>>> devtest
     }else{
       console.log('no match');
       console.log(number,suit);
@@ -249,14 +238,8 @@ Game.prototype.deleteCard = function(number, suit, turn, index){
         console.log('ok');
         this.turn = 1;
         var cardToTable = this.players[turn].hand[i];
-<<<<<<< HEAD
-        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,j);
-        this.players[1].hand.shift(i);
-        //this.players[0].hand.splice(cardToDelete,1); // error is deleting the first element of array 
-=======
         game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,index);
         this.players[turn].hand.splice(index,1); // error is deleting the first element of array 
->>>>>>> devtest
         game.detectCard();
       }
     }
@@ -267,13 +250,8 @@ Game.prototype.deleteCard = function(number, suit, turn, index){
         console.log('ok');
         this.turn = 0;
         var cardToTable = this.players[turn].hand[i];
-<<<<<<< HEAD
-        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,j);
-        this.players[1].hand.shift(cardToDelete);
-=======
         game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,index);
         this.players[turn].hand.splice(index,1);
->>>>>>> devtest
         game.detectCard();
       }
     }
