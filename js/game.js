@@ -197,7 +197,7 @@ Game.prototype.sendCardToHand = function(card, turn){
   }
 }
 
- Game.prototype.deleteCardDom = function(index,number,suit,turn,cardToTable){
+ Game.prototype.deleteCardDom = function(index,number,suit,turn,cardToTable,newIndex){
    if(turn === 0){
      var hand = document.getElementById(`cards-hand-${turn}`);
      var table = document.getElementById('cards-table');
@@ -206,7 +206,7 @@ Game.prototype.sendCardToHand = function(card, turn){
      changeAtt.src = `images/newcards/${number}-${suit}.png`;
      changeAtt.setAttribute("data-suit", suit);
      changeAtt.setAttribute("data-number",number);
-     hand.removeChild(hand.childNodes[index]);
+     hand.removeChild(hand.childNodes[newIndex]);
      table.appendChild(changeAtt);
      console.log(changeAtt);
      this.table.shift();
@@ -221,7 +221,7 @@ Game.prototype.sendCardToHand = function(card, turn){
      changeAtt.setAttribute("data-suit", suit);
      changeAtt.setAttribute("data-number",number);
      console.log(hand);
-     hand.removeChild(hand.childNodes[index]);
+     hand.removeChild(hand.childNodes[newIndex]);
      table.appendChild(changeAtt);
      this.table.shift();
      this.table.push(cardToTable);
