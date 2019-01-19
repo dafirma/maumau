@@ -176,31 +176,31 @@ Game.prototype.sendCardToHand = function(card, turn){
 
  Game.prototype.deleteCardDom = function(index,number,suit,turn,cardToTable){
   console.log('index to delete:' + index) 
-  if(turn === 0){
+  // if(turn === 0){
     var table = document.getElementById('cards-table');
-    console.log(`image/newcards/${number}-${suit}.png`);
+    // console.log(`image/newcards/${number}-${suit}.png`);
     var changeAtt = table.childNodes[1];
     changeAtt.src = `images/newcards/${number}-${suit}.png`;
     changeAtt.setAttribute("data-suit", suit);
     changeAtt.setAttribute("data-number",number);
     table.appendChild(changeAtt);
-    console.log(changeAtt);
+    // console.log(changeAtt);
     $(`#cards-hand-${turn}`).children()[index].remove();
     this.table.shift();
     this.table.push(cardToTable);
-  }else if(turn === 1){
-    console.log('index to delete:' + index);
-     var table = document.getElementById('cards-table');
-     console.log(`image/newcards/${number}-${suit}.png`);
-     var changeAtt = table.childNodes[1];
-     changeAtt.src = `images/newcards/${number}-${suit}.png`;
-     changeAtt.setAttribute("data-suit", suit);
-     changeAtt.setAttribute("data-number",number);
-     $(`#cards-hand-${turn}`).children()[index].remove();
-     table.appendChild(changeAtt);
-     this.table.shift();
-     this.table.push(cardToTable);
-    }  
+  // }else if(turn === 1){
+  //   console.log('index to delete:' + index);
+  //    var table = document.getElementById('cards-table');
+  //    console.log(`image/newcards/${number}-${suit}.png`);
+  //    var changeAtt = table.childNodes[1];
+  //    changeAtt.src = `images/newcards/${number}-${suit}.png`;
+  //    changeAtt.setAttribute("data-suit", suit);
+  //    changeAtt.setAttribute("data-number",number);
+  //    $(`#cards-hand-${turn}`).children()[index].remove();
+  //    table.appendChild(changeAtt);
+  //    this.table.shift();
+  //    this.table.push(cardToTable);
+  //   }  
 }
 
 
@@ -208,28 +208,66 @@ Game.prototype.deleteCard = function(number, suit, turn, index){
   console.log(turn);
   if(turn === 0){
     for(var i = 0; i < this.players[turn].hand.length; i++){
-      if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
+      if(number === this.players[turn].hand[i].number && suit === this.players[turn].hand[i].suit){
         var cardToDelete = index;
-        this.turn = 1;
         var cardToTable = this.players[turn].hand[i];
         game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable);
         this.players[turn].hand.splice(index,1); 
+        this.turn = 1;
         game.detectCard();
       }
     }
   }else if(turn === 1){ //CHECK LATER
     for(var i = 0; i < this.players[turn].hand.length; i++){
-      if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
+      if(number === this.players[turn].hand[i].number && suit === this.players[turn].hand[i].suit){
         var cardToDelete = index;
-        this.turn = 0;
         var cardToTable = this.players[turn].hand[i];
         game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable);
+        console.log(turn);
         this.players[turn].hand.splice(index,1);
+        this.turn = 0;
         game.detectCard();
       }
     }
-  } 
+  }
+        
+        
 }
+        
+
+
+/*
+  // if(turn === 0){
+    //this.players[turn].hand.forEach((elem, i) => {
+      //if (number === elem.hand[i].number && suit === elem.hand[i].suit) {
+        //let cardToDelete = index;
+        //let cardToTable = elem.hand[i];
+        
+        //game.deleteCardDom(index, number, suit, turn, cardToTable);
+     // }
+   // });
+    for(var i = 0; i < this.players[turn].hand.length; i++){
+      if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
+        var cardToDelete = index;
+        var cardToTable = this.players[turn].hand[i];
+        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable);
+        this.players[turn].hand.splice(index,1); 
+        this.turn = 1;
+        game.detectCard();*/
+    // }
+  // }else if(turn === 1){ //CHECK LATER
+  //   for(var i = 0; i < this.players[turn].hand.length; i++){
+  //     if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
+  //       var cardToDelete = index;
+  //       this.turn = 0;
+  //       var cardToTable = this.players[turn].hand[i];
+  //       game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable);
+  //       this.players[turn].hand.splice(index,1);
+  //       game.detectCard();
+  //     }
+  //   }
+  // } 
+
 Game.prototype.sendCardToTable = function(number,suit){
   var table = document.getElementById('cards-table');
   console.log(`image/newcards/${number}-${suit}.png`);
