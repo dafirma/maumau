@@ -73,36 +73,48 @@ Game.prototype.imgToTable = function(){
 Game.prototype.detectCard = function(){
   var dataSuit;
   var dataNumber;
+  var img = document.querySelectorAll(`#cards-hand-${game.turn} img`);
   console.log(game.turn);
-  if(game.turn === 0){ // try to put the gameover function in this function.
-      for(var j = 0; j < this.players[game.turn].hand.length; j++){
-        var img = document.querySelectorAll(`#cards-hand-${game.turn} img`);
-        img[j].addEventListener("click", function(e){
-        console.log(`click: ${j - 1}` );
-        dataNumber = e.currentTarget.dataset.number;
-        dataSuit = e.currentTarget.dataset.suit;
-        game.matchCardsNew(dataNumber,dataSuit,j);
-      });
-    }
-  } else if(game.turn === 1){
-    for(var j = 0; j < this.players[game.turn].hand.length; j++){
-      var img = document.querySelectorAll(`#cards-hand-${game.turn} img`);
-      img[j].addEventListener("click", function(e){
-      dataNumber = e.currentTarget.dataset.number;
-      dataSuit = e.currentTarget.dataset.suit;
-      game.matchCardsNew(dataNumber,dataSuit);
+  img.forEach((elem, index) => {
+    elem.addEventListener('click', (e) => {
+      let card = e.currentTarget;
+      dataSuit = card.dataset.suit;
+      dataNumber = card.dataset.number;
+      game.matchCardsNew(dataNumber,dataSuit, index);
     });
-  }
- }
+  });
+  // if(game.turn === 0){ // try to put the gameover function in this function.
+    this.players[game.turn].hand.forEach((card, index, arrray) => {
+      
+    });
+  //     for(var j = 0; j < this.players[game.turn].hand.length; j++){
+  //       var img = document.querySelectorAll(`#cards-hand-${game.turn} img`);
+  //       img[j].addEventListener("click", function(e){
+  //       console.log(`click: ${j - 1}` );
+  //       dataNumber = e.currentTarget.dataset.number;
+  //       dataSuit = e.currentTarget.dataset.suit;
+  //       game.matchCardsNew(dataNumber, dataSuit, j);
+  //     });
+  //   }
+  // } else if(game.turn === 1){
+  //     for(var j = 0; j < this.players[game.turn].hand.length; j++){
+  //       var img = document.querySelectorAll(`#cards-hand-${game.turn} img`);
+  //       img[j].addEventListener("click", function(e){
+  //       dataNumber = e.currentTarget.dataset.number;
+  //       dataSuit = e.currentTarget.dataset.suit;
+  //       game.matchCardsNew(dataNumber, dataSuit, j);
+  //     });
+  // }
+//  }
 }
 
 //CHECK FUNCTION MATCH CARDS NEW
-Game.prototype.matchCardsNew = function(number,suit,j){
+Game.prototype.matchCardsNew = function(number,suit,index){
   if(this.turn === 0){
     if(number === this.table[0].number || suit === this.table[0].suit){
       console.log('match');
       alert('PLAYER 2, IT\'S YOUR TURN!');
-      game.deleteCard(number,suit, this.turn,j);
+      game.deleteCard(number, suit, this.turn, index);
     }else{
       console.log('no match');
       console.log(number,suit);
@@ -114,7 +126,7 @@ Game.prototype.matchCardsNew = function(number,suit,j){
       console.log('match');
       alert('PLAYER 1, IT\'S YOUR TURN!');
       console.log(number,suit);
-      game.deleteCard(number,suit, this.turn);
+      game.deleteCard(number, suit, this.turn, index);
     }else{
       console.log('no match');
       console.log(number,suit);
@@ -217,30 +229,29 @@ Game.prototype.sendCardToHand = function(card, turn){
 }
 
 
-Game.prototype.deleteCard = function(number,suit,turn,j){
+Game.prototype.deleteCard = function(number, suit, turn, index){
   console.log(turn);
   if(turn === 0){
     for(var i = 0; i < this.players[turn].hand.length; i++){
       if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
-        var cardToDelete = j;
+        var cardToDelete = index;
         console.log('ok');
         this.turn = 1;
         var cardToTable = this.players[turn].hand[i];
-        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,j);
-        this.players[0].hand.splice(cardToDelete,1); // error is deleting the first element of array 
+        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,index);
+        this.players[turn].hand.splice(index,1); // error is deleting the first element of array 
         game.detectCard();
       }
     }
   }else if(turn === 1){ //CHECK LATER
     for(var i = 0; i < this.players[turn].hand.length; i++){
       if(number === this.players[turn].hand[i].number && this.players[turn].hand[i].suit){
-        var cardToDelete = j;
+        var cardToDelete = index;
         console.log('ok');
         this.turn = 0;
         var cardToTable = this.players[turn].hand[i];
-        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,j);
-        this.players[1].hand.splice(cardToDelete,1);
-        //this.players[1].hand.shift(cardToDelete);>
+        game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable,index);
+        this.players[turn].hand.splice(index,1);
         game.detectCard();
       }
     }
