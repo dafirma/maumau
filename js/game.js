@@ -90,7 +90,8 @@ Game.prototype.detectCard = function(){
 Game.prototype.matchCardsNew = function(number, suit, index, turn){
   if(number === this.table[0].number || suit === this.table[0].suit){
     console.log('match');
-    alert('PLAYER 2, IT\'S YOUR TURN!');
+    game.popupPlayer(turn);
+    //alert('PLAYER 2, IT\'S YOUR TURN!');
     game.deleteCard(number, suit, turn, index);
   }else{
     console.log('no match');
@@ -254,6 +255,28 @@ Game.prototype.turnPlayer = function(turn){ // alone for the pop up
     //game.detectCard();
   }
 }
+
+Game.prototype.popupPlayer = function(turn){
+  console.log('tesr');
+  var popup = document.getElementById('popup-player');
+  var textPlace = document.getElementById('text-player');
+  var text = document.createTextNode(`Player ${turn}, it's your turn!`);
+  textPlace.appendChild(text);
+  popup.style.display = 'block';
+  }
+
+  Game.prototype.bannerPlayerClick = function(){
+    var popup = document.getElementById('popup-player');
+    popup.style.display = 'none';
+  }
+  /*
+  if(popup.style.display === 'none'){
+    var text = document.createTextNode(`Player ${turn}, it's your turn!`);
+    popup.style.display ='block';
+  }else if(popup.style.display === 'block'){
+      popup.style.display ='none';
+  }*/
+
 
 Game.prototype.buttonScreen = function(){
 

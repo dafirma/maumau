@@ -34,6 +34,17 @@ function restartButton(){
   */
 }
 
+  //popup.classList.toggle('hidden');
+  //if(popup.classList.toggle === 'hidden'){
+    //console.log('ok');
+    //popup.style.display = 'block';  
+
+  //}else{
+    //popup.style.display = 'none';
+
+  //OLHAR A POSSIBILIDADE DE COLOCAR OS JOGADORES EM UM ARRAY PARA COMPROVAR OS TURNOS
+
+
 //Game Over Button
 function gameOverButton(){
   let gameScreen = document.getElementById('container-cards');
