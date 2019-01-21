@@ -68,53 +68,82 @@ Game.prototype.imgToTable = function(){
   img.src = this.table[0].image;
   var src = document.getElementById("cards-table");
   src.appendChild(img);
+  game.detectCard(game.turn);
 }
 
 Game.prototype.detectCard = function(turn){
-  let img = document.querySelectorAll(`#cards-hand-${turn} img`);
-  console.log(img);
-  img.addEventListener('click', function(){
-    console.log('ok');
+  console.log(turn)
+  if (turn === 0){
+    var img = document.querySelectorAll(`#cards-hand-0`);
+    img.forEach((elem, index) => {
+      elem.addEventListener('click', (e) => {
+        let card = e.currentTarget;
+        dataSuit = card.dataset.suit;
+        dataNumber = card.dataset.number;
+        console.log(card);
+        game.matchCardsNew(dataNumber, dataSuit, index, turn);
+      });
+    }); 
 
-  });
-
-}
-  
-  /*console.log(this.turn);
-  var dataSuit;
-  var dataNumber;
-  var img = document.querySelectorAll(`#cards-hand-${this.turn} img`);
-  img.forEach((elem, index) => {
-    elem.addEventListener('click', (e) => {
-      let card = e.currentTarget;
-      dataSuit = card.dataset.suit;
-      dataNumber = card.dataset.number;
-      game.matchCardsNew(dataNumber, dataSuit, index, this.turn);
+  }else if (turn === 1){
+    var img = document.querySelectorAll(`#cards-hand-1`);
+    img.forEach((elem, index) => {
+      elem.addEventListener('click', (e) => {
+        let card = e.currentTarget;
+        let dataSuit = card.dataset.suit;
+        let dataNumber = card.dataset.number;
+        console.log(card);
+        game.matchCardsNew(dataNumber, dataSuit, index, turn);
+      }); 
     });
-  }); */
-
+  }
+}
 
 //CHECK FUNCTION MATCH CARDS NEW
 Game.prototype.matchCardsNew = function(number, suit, index, turn){
   if(number === this.table[0].number || suit === this.table[0].suit){
     console.log('match');
-    game.popupPlayer(turn);
+    
+    //game.popupPlayer(turn);
     //alert('PLAYER 2, IT\'S YOUR TURN!');
-    game.deleteCard(number, suit, turn, index);
+    //game.deleteCard(number, suit, turn, index);
+    game.turnPlayer(turn);
   }else{
     console.log('no match');
     //console.log(number,suit);
     //alert ('WRONG CARD, TRY OTHER CARD OR BUY FROM THE PILE. THE CARD MUST BE THE SAME NUMBER OR SAME SUIT.');
-    game.buyCard(turn);
+    //game.buyCard(turn);
+    game.turnPlayer(turn);
   }
+  console.log();
 }
 
+Game.prototype.turnPlayer = function(turn){ // alone for the pop up
+  let handPlayer2 = document.getElementById(`cards-hand-0`);
+  if(turn === 0 && handPlayer2.style-display === 'block'){
+    //let popupPlayer1 = document.getElementById('popup-player1');
+    //popupPlayer1.style.display = 'block';
+    //game.buttonScreen();
+    handPlayer2.style.display = 'none';
+    this.turn = 1;
+    game.detectCard(this.turn);
+  }else if(turn === 0 && handPlayer2.style-display === 'none'){
+      handPlayer2.style.display = 'none';
+      this.turn = 1;
+      game.detectCard(this.turn);
+  }else if(turn === 1 && handPlayer1.style.display === 'block'){
+    let handPlayer1 = document.getElementById(`cards-hand-1`);
+    handPlayer1.style.display = 'none';
+    this.turn = 0;
+    game.detectCard(this.turn);
+  }else if(turn === 1 && handPlayer1.style.display === 'none'){
+    let handPlayer1 = document.getElementById(`cards-hand-1`);
+    handPlayer1.style.display = 'block';
+    this.turn = 0;
+    game.detectCard(this.turn);
+}
 Game.prototype.buyCard = function(turn){
   var cardDealer = document.getElementById('cards-dealer');
-  //console.log(turn);
-  //console.log(this.players[0].hand);
-  //console.log(this.players);
-  //if(this.cards.length > 0){
     if (game.allCardsCount != 0){
     cardDealer.addEventListener("click", function(){
     var nextCard = this.cards[0];
@@ -190,13 +219,13 @@ Game.prototype.newTurnPlayer = function (turn){
   switch (turn){
     case 0: 
       this.turn = 1;
-      console.log('was = 0 and now is: ' + this.turn);
-      game.detectCard();
+      console.log('turn was = 0 and now is: ' + this.turn);
+      game.detectCard(this.turn);
     break;
     case 1:
       this.turn = 0;
-      console.log('was = 0 and now is: ' + this.turn);
-      game.detectCard();
+      console.log('turn was = 1 and now is: ' + this.turn);
+      game.detectCard(this.turn);
       break;
   }
 }
@@ -232,7 +261,6 @@ function startGame(){
   game.backCard();
   game.imgToDom();
   game.imgToTable();
-  game.detectCard(game.turn);
   game.gameOverGame(game.turn);
   console.log('ok startGame function');
 }
@@ -268,18 +296,6 @@ Game.prototype.dealToHand = function(){
   console.log('ok');
 };
 
-Game.prototype.turnPlayer = function(turn){ // alone for the pop up
-  if(turn === 0){
-    //let popupPlayer1 = document.getElementById('popup-player1');
-    //popupPlayer1.style.display = 'block';
-    //game.buttonScreen();
-    //this.turn = 1;
-    //game.detectCard();
-  }else if(turn === 1){
-    //this.turn = 0;
-    //game.detectCard();
-  }
-}
 
 Game.prototype.popupPlayer = function(turn){
   console.log('tesr');
