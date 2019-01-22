@@ -1,4 +1,3 @@
-console.log('hola');
 let buttonHide = document.getElementById('btn-hide');
 let start = document.getElementById('btn-start');
 let gameOver = document.getElementById('btn-gameover');
