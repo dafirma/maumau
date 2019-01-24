@@ -34,7 +34,7 @@ Game.prototype.img = function(){
   });
 }
 
-Game.prototype. allCardsDeal = function(){
+Game.prototype.allCardsDeal = function(){
   if (this.cards.length > 0){
     this.deal = this.cards[0];
     this.cards.shift();
@@ -71,97 +71,111 @@ Game.prototype.imgToTable = function(){
   game.detectCard();
 }
 
-Game.prototype.detectCard = function(){
-  console.log('es el turno: ', this.turn); 
-  let img = document.querySelectorAll(`#cards-hand-${this.turn} img`);
-  img.forEach((elem, index) => {
-      elem.addEventListener('click', (e) => {
-      let card = e.currentTarget;
-      dataSuit = card.dataset.suit;
-      dataNumber = card.dataset.number;
-      game.matchCardsNew(dataNumber, dataSuit, index);
-    });
-  });
+Game.prototype.detectCard = function() {
+  if (this.turn === 1) {
+    console.log('entra en el detect 111111');
+    let imgPlayer1 = document.querySelectorAll(`#cards-hand-${this.turn} img`);
 
+    imgPlayer1.forEach((elem, index, array) => {
+      $(elem).click(e => {
+        let card = e.currentTarget;
+        let dataSuit = card.dataset.suit;
+        let dataNumber = card.dataset.number;
+
+        game.matchCardsNew(dataNumber, dataSuit, index, imgPlayer1);
+      });
+    });
+  } else {
+    console.log('entra en el detect 222222222');
+    let imgPlayer2 = document.querySelectorAll(`#cards-hand-${this.turn} img`);
+    
+    imgPlayer2.forEach((elem, index, array) => {
+      $(elem).click(e => {
+        let card = e.currentTarget;
+        let dataSuit = card.dataset.suit;
+        let dataNumber = card.dataset.number;
+        
+        game.matchCardsNew(dataNumber, dataSuit, index, imgPlayer2);
+      });
+    });
+  }
 }
 
+
 //CHECK FUNCTION MATCH CARDS NEW
-Game.prototype.matchCardsNew = function(number, suit, index){
+Game.prototype.matchCardsNew = function(number, suit, index, imgPlayer){
+  console.log(imgPlayer);
   if(number === this.table[0].number || suit === this.table[0].suit){
-    console.log('match');
+    console.log('match con: ', number, suit, index);
     
     //game.popupPlayer(turn);
     //alert('PLAYER 2, IT\'S YOUR TURN!');
-    //game.deleteCard(number, suit, turn, index);
+    game.deleteCard(number, suit, index);
+    imgPlayer.forEach(elem => {
+      $(elem).off('click');
+    });
+    //game.turnPlayer();
     game.newTurnPlayer();
   }else{
-    console.log('no match');
+    console.log('no match, a comprar!!!!!');
     //console.log(number,suit);
     //alert ('WRONG CARD, TRY OTHER CARD OR BUY FROM THE PILE. THE CARD MUST BE THE SAME NUMBER OR SAME SUIT.');
-    //game.buyCard(turn);
-    game.newTurnPlayer();
+    game.buyCard();
+    
   }
-  console.log();
 }
 
 Game.prototype.newTurnPlayer = function (){
+  console.log('turno antes de cambiarlo: ', this.turn);
   if(this.turn === 1){
     this.turn = 0;
-  }else if(this.turn === 0){
-    this.turn = 1
+  } else {
+    this.turn = 1;
   }
-  console.log('turno desde el cambio:', this.turn);
   game.detectCard();
 } 
-/*
-Game.prototype.turnPlayer = function(turn){ // alone for the pop up
-  console.log(turn);
+
+Game.prototype.turnPlayer = function(){ // alone for the pop up
+  console.log(this.turn);
   let handPlayer2 = document.getElementById(`cards-hand-0`);
   let handPlayer1 = document.getElementById(`cards-hand-1`);
-  if(turn === 0 && handPlayer2.style-display === 'block'){
+  if(this.turn === 0 && handPlayer2.style.display === 'block'){
     //let popupPlayer1 = document.getElementById('popup-player1');
     //popupPlayer1.style.display = 'block';
     //game.buttonScreen();
     handPlayer2.style.display = 'none';
     this.turn = 1;
-    game.detectCard(this.turn);
-  }else if(turn === 0 && handPlayer2.style-display === 'none'){
-      handPlayer2.style.display = 'none';
-      this.turn = 1;
-      game.detectCard(this.turn);
-  }else if(turn === 1 && handPlayer1.style.display === 'block'){
-    handPlayer1.style.display = 'none';
-    this.turn = 0;
-    game.detectCard(this.turn);
-  }else if(turn === 1 && handPlayer1.style.display === 'none'){
-    handPlayer1.style.display = 'block';
-    this.turn = 0;
-    game.detectCard(this.turn);
   }
-}*/
-Game.prototype.buyCard = function(turn){
-  var cardDealer = document.getElementById('cards-dealer');
-    if (game.allCardsCount != 0){
-    cardDealer.addEventListener("click", function(){
-    var nextCard = this.cards[0];
-    game.sendCardToHand(this.cards[0],turn);
-    //console.log(nextCard);
-    this.players[turn].hand.push(nextCard);
-    this.cards.shift();
-    //game.sendCardToHand(this.players[turn].hand[this.players[turn].hand.length-1],turn);
-    //this.turn = 1;
-    game.newTurnPlayer(turn);
-    
-    //alert('PLAYER 1, IT\'S YOUR TURN!');    
+}
+Game.prototype.buyCard = function(){
+  let cardDealer = document.getElementById('cards-dealer');
+  let imgPlayer = document.querySelectorAll(`#cards-hand-${this.turn} img`);
+  console.log(this.turn);
+  let turnTemp = this.turn;
+  if (game.allCardsCount != 0){
+    cardDealer.addEventListener('click', function(){
+      var nextCard = this.cards[0];
+      game.sendCardToHand(this.cards[0],turnTemp);
+      this.players[this.turn].hand.push(nextCard);
+      this.cards.shift();
+      console.log('teste');
+      //alert('PLAYER 1, IT\'S YOUR TURN!');    
     }.bind(this));
+    imgPlayer.forEach(elem => {
+      $(elem).off('click');
+    });
+    $(cardDealer).off('click');
+      game.newTurnPlayer();
   }else{
-  console.log('pile empty.');
+    console.log('pile empty.');
   }
+  $(cardDealer).off('click');
+  game.newTurnPlayer();
 }
 
 
-Game.prototype.sendCardToHand = function(card, turn){
-    var handCard = document.getElementById(`cards-hand-${turn}`);
+Game.prototype.sendCardToHand = function(card, turnTemp){
+    var handCard = document.getElementById(`cards-hand-${turnTemp}`);
     var img = document.createElement('img');
     var cardNumber = card.number;
     var cardSuit = card.suit;
@@ -171,7 +185,7 @@ Game.prototype.sendCardToHand = function(card, turn){
     handCard.appendChild(img);
 }
 
- Game.prototype.deleteCardDom = function(index,number,suit,turn,cardToTable){
+ Game.prototype.deleteCardDom = function(index, number, suit, cardToTable){
    console.log('index to delete:' + index); 
    var table = document.getElementById('cards-table');
    //var hand = document.getElementById(`cards-hand-${turn}`);
@@ -182,20 +196,19 @@ Game.prototype.sendCardToHand = function(card, turn){
    table.appendChild(changeAtt);
    this.table.shift();
    this.table.push(cardToTable);
-  $(`#cards-hand-${turn}`).children()[index].remove(); // attention 
+  $(`#cards-hand-${this.turn}`).children()[index].remove(); // attention 
 }
 
 
-Game.prototype.deleteCard = function(number, suit, turn, index){
-  console.log(turn);
-  if(number === this.players[turn].hand[index].number || suit === this.players[turn].hand[index].suit){
+Game.prototype.deleteCard = function(number, suit, index){
+  console.log(this.turn);
+  if(number === this.players[this.turn].hand[index].number || suit === this.players[this.turn].hand[index].suit){
     var cardToDelete = index;
-    var cardToTable = this.players[turn].hand[index];
-    game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable);
-    this.players[turn].hand.splice(index,1); 
-    game.newTurnPlayer(turn);
+    var cardToTable = this.players[this.turn].hand[index];
+    game.deleteCardDom(cardToDelete,number,suit, cardToTable);
+    this.players[this.turn].hand.splice(index,1); 
+    //game.newTurnPlayer();
     // game.detectCard();
-    console.log(card);
   }else {
     console.log('error');
   }
@@ -224,7 +237,44 @@ Game.prototype.sendCardToTable = function(number,suit){
   changeAtt.setAttribute("data-number",number);
   table.appendChild(changeAtt);
 }
+/*
 
+Game.prototype.showHide0 = function(){
+  let el0 = document.getElementById('cards-hand-0');
+  let ch0 = document.getElementById('cards-hide-0');
+  let button0 = document.getElementById('btn-hide0');
+  console.log(this.turn);
+  console.log(el0);
+  button0.addEventListener('click', function(){
+    if(ch0.style.display ==='block'){
+      ch0.style.display = 'none';
+      el0.style.display = 'none';
+      console.log('test ok')
+    }else if(ch0.style.display ==='none'){
+      ch0.style.display = 'block';
+      el0.style.direction = 'none';
+      console.log('test error');s
+    }
+
+  })
+
+  }
+  */
+  /*
+  if(ch0.style.display ==='block'){
+    console.log(el1);
+    ch0.style.display = 'none';
+    el0.style.display = 'none';
+  }else if(ch0.style.display ==='none'){
+    ch0.style.display = 'block';
+    el0.style.direction = 'none';
+  }/*else if(this.turn === 0 && el0.style.display === 'none'){
+    el0.style.display === 'block';
+  }else if(this.turn === 0 && el0.style.display === 'block'){
+    el0.style.display === 'none';
+  }
+
+}.bind(this);*/
 Game.prototype.backCard = function(){
   var imgBackCard = document.createElement('img');
   imgBackCard.src = `images/newcards/back.png`;
@@ -271,7 +321,7 @@ Game.prototype.dealToTable = function(){
 }
 Game.prototype.dealToHand = function(){
   this.players.forEach(function (elem){
-    for(var i =0; i < 3; i++){
+    for(var i =0; i < 5; i++){
       elem.hand.push(this.cards[0]);
       this.cards.shift(); 
     }
@@ -292,6 +342,7 @@ Game.prototype.popupPlayer = function(turn){
 
   Game.prototype.bannerPlayerClick = function(){
     var popup = document.getElementById('popup-player');
+    console.log('popup');
     popup.style.display = 'none';
     $(`#text-player`).children()[0].remove();
     var text = document.getElementById('text-player');
@@ -309,3 +360,20 @@ Game.prototype.popupPlayer = function(turn){
 Game.prototype.buttonScreen = function(){
 
 }
+//let buttonHide = document.getElementById('btn-hide');
+//buttonHide.addEventListener('click', function(){
+//  Game.prototype.showHide();
+//});
+/*
+  //var elHide = document.getElementById('cards-hand-hide');
+  if( this.turn === 0 && el.style.display === 'none'){    
+      el.style.display = 'flex';
+      //elHide.style.display = 'flex';
+  }
+  else if(this.turn === 1 && el.style.display ==='flex'){
+      el.style.display = 'none';
+      //elHide.style.display = 'none';
+  }*/
+
+
+

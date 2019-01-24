@@ -1,7 +1,9 @@
-let buttonHide = document.getElementById('btn-hide');
+//let buttonHide = document.getElementById('btn-hide');
 let start = document.getElementById('btn-start');
 let gameOver = document.getElementById('btn-gameover');
 let restart = document.getElementById('btn-restart');
+let btnShowHide0 = document.getElementById('btn-hide0');
+
 
 restart.addEventListener('click', function(){
   restartButton();
@@ -15,9 +17,32 @@ start.addEventListener('click', function(){
   startButton();
 });
 
-buttonHide.addEventListener('click', function(){
-  turnPlayer();
+
+btnShowHide0.addEventListener('click', function(){
+  showHide0();
+
 });
+
+function showHide0() {
+  let el0 = document.getElementById('cards-hand-0');
+  let ch0 = document.getElementById('cards-hide-0');
+  console.log(el0);
+    if(ch0.style.display ==='block'){
+      ch0.style.display = 'none';
+      el0.style.display = 'none';
+      console.log('test ok')
+    }else if(ch0.style.display ==='none'){
+      ch0.style.display = 'block';
+      el0.style.direction = 'none';
+      console.log('test error');
+    }
+
+}
+
+
+//buttonHide.addEventListener('click', function(){
+  //Game.prototype.showHide();
+//});
 
 // Restart Button
 function restartButton(){
@@ -64,6 +89,8 @@ function startButton(){
 
 }
 
+
+
 // show hide card button 
 /*
 function turnPlayer(){
@@ -84,7 +111,7 @@ function turnPlayer(){
 }
 */
 
-
+/*
 
 function showHide() {
   var el = document.getElementById('cards-hand');
@@ -98,7 +125,7 @@ function showHide() {
       elHide.style.display = 'none';
   }
 }
-
+*/
 /*
   game.onGameOver = () => {
     let gameOver = document.getElementById('gameover');
