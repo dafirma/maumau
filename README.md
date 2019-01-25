@@ -81,9 +81,9 @@ Task definition in order of priority
 ### Git
 URls for the project repo and deploy
 [Link Repo](https://github.com/dafirma/maumau)
-[Link Deploy](http://github.com)
+[Link Deploy](https://dafirma.github.io/maumau/)
 
 
 ### Slides
 URls for the project presentation (slides)
-[Link Slides.com](https://slides.com/dafirma/)
+[Link Slides.com](https://slides.com/dafirma/mau-mau-card-game)
