@@ -117,7 +117,6 @@ Game.prototype.matchCardsNew = function(number, suit, index, imgPlayer){
     imgPlayer.forEach(elem => {
       $(elem).off('click');
     });
-
   }else if(number === 'K'){
     game.gameOverGame();
     game.deleteCard(number, suit, index);
@@ -304,7 +303,7 @@ Game.prototype.dealToTable = function(){
 }
 Game.prototype.dealToHand = function(){
   this.players.forEach(function (elem){
-    for(var i =0; i < 2; i++){
+    for(var i =0; i < 5; i++){
       elem.hand.push(this.cards[0]);
       this.cards.shift(); 
     }
