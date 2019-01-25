@@ -113,12 +113,14 @@ Game.prototype.matchCardsNew = function(number, suit, index, imgPlayer){
     game.newTurnPlayer();
   }else if(number === 'A'){
     game.gameOverGame();
+    game.popupPlayer();
     game.deleteCard(number, suit, index);
     imgPlayer.forEach(elem => {
       $(elem).off('click');
     });
   }else if(number === 'K'){
     game.gameOverGame();
+    game.popupPlayer();
     game.deleteCard(number, suit, index);
     imgPlayer.forEach(elem => {
       $(elem).off('click');
