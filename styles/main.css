@@ -48,8 +48,8 @@ h2{
 #container-cards{
   /*
   position:absolute;*/
-  padding-left: 150px;
-  padding-top: 10px;
+  padding-left: 30px;
+  padding-top: 5px;
   display: none;
   max-width: 80%;
 }
@@ -87,8 +87,22 @@ h2{
   margin-top:-20px;
 
 }
-#cards.hand-1{
+#cards-hand-1{
   display: block;
+  padding-bottom: 20px;
+}
+#cards-hide-1{
+  display: none;
+  padding-top: 70px;
+  padding-bottom: 20px;
+}
+#cards-hide-1 img {
+  width: 12%;
+  height: 12%;
+  top:-100px;
+  padding-left:20px;
+  max-width: 800px;
+  margin-top: -80px
 }
 
 #cards-hand-1 img{
@@ -101,7 +115,7 @@ h2{
   padding-left:20px;
   max-width: 600px;
   margin-top: -80px;
-  display:none;
+  display: none;
 }
 #cards-hand-0 img{
   width: 12%;
@@ -141,6 +155,27 @@ h2{
 
 #gameover-screen{
   display:none;
+  left: 40%;
+
+
+
+}
+#player-name{
+  font-size: 30px;
+  text-align: center;
+  padding-bottom: 150px;
+  padding-top:20px; 
+}
+#btn-restart{
+  padding:10px;
+  font-size: 30px;
+  border-radius: 0.5em;
+  background-color: red;
+  color: white;
+  font-family: Arial;
+  position: relative;
+  left: 40%;
+
 }
 
 #popup-container{
@@ -152,15 +187,22 @@ h2{
   user-select: none;
 
 }
+
 #btn-player{
   cursor: pointer;
   border-radius: 0.5em;
+  padding: 20px;
+}
+#btn-player-wrong{
+  cursor: pointer;
+  border-radius: 0.5em;
+  padding: 20px;
 }
 
 #popup-container #popup-player{
   display: none;
   width: 100%;
-  height:300px;
+  height:540px;
   background-color: #555;
   color: #fff;
   text-align: center;
@@ -170,7 +212,25 @@ h2{
   z-index: 5;
   bottom: 125%;
   left: 0%;
-  top: 250px;
+  top: 25px;
+  margin-left: 0px;
+  opacity:1;
+}
+
+#popup-container #popup-player-wrong{
+  display: none;
+  width: 100%;
+  height:540px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 5;
+  bottom: 125%;
+  left: 0%;
+  top: 25px;
   margin-left: 0px;
   opacity:1;
 }
@@ -182,90 +242,38 @@ h2{
 #popup-player img {
     display:flex;
   padding-left: 250px;
-  max-width: 5%;
+  max-width: 10%;
+}
+#popup-player-wrong img {
+  display:flex;
+padding-left: 250px;
+max-width: 10%;
 }
 
-#popup-player #text-player{
+#popup-player .text-player{
   margin-top:10px;
-  padding-top:10px; 
+  padding-top:15%; 
+  color:white;
 }
 
-  
-  /* Add animation (fade in the popup) */
-  @-webkit-keyframes fadeIn {
-    from {opacity: 0;} 
-    to {opacity:0.51;}
-  }
-  
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity:0.5 ;}
-  }
+#popup-player-wrong .text-player{
+  margin-top:10px;
+  padding-top:15%; 
+  color:white;
+}
+#popup-player h1{
+  color:white;
+}  
 
-
-  #btn-player{
-    padding: 20px;
-
-  }
-
-  /*
-  display:block;
-  
-  padding-top:200px; 
-  height: 300px;
-  width: 100%;
-  border-radius: 1em;
-  background-color:white;
-  opacity: 20%;
-  top:100px;
-  bottom: 200px;
-  visibility: hidden;
-  width: 600px;
-  height:300px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 5;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -80px;
-  opacity: 0.5;
-  */
 
 #popup-player h1{
   color:black;
   
 }
-
-
-/*
-.container{
-  max-width: 80%;
-}
-
-footer {
-
-  background-repeat: no-repeat;
-  
-}
-.main-title {
-text-align: center;
+#gameover-cropier{
+padding-left: 40%;
+max-width: 15%;
 
 }
-.container-dealer{
-  display:flex;
-  flex-direction: row;
-  padding-bottom: 50px;
-}
-#container-cards{
-  display: flex;
-  clear: both;
-  padding-bottom: 50px;
-}
-.img-card{
-  max-width: 50%;
-}
-*/
+
+

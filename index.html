@@ -11,12 +11,18 @@
     <header>
     </header>
     <div id ="popup-container">
-        <div id ="popup-player" onclick="game.bannerPlayerClick()">
-            <h1 id = "text-player">Player1, It's you turn!</h1>
+        <div id ="popup-player">
+            <h1 class = "text-player">PLAYER <span id="numberPlayer"></span>, IT'S YOUR TURN!</h1>
             <img src="images/cropier.svg" alt="croupier">
             <button id="btn-player" type ="submit">PLAY</button>
+        </div>
+        <div id ="popup-player-wrong">
+            <h1 class = "text-player">WRONG CARD, TRY OTHER CARD OR BUY FROM THE PILE. <br>THE CARD MUST BE THE SAME NUMBER OR SAME SUIT</h1>
+            <img src="images/cropier.svg" alt="croupier">
+            <button id="btn-player-wrong" type ="submit">PLAY</button>
+        </div>
     </div>
-    </div>
+    
     <div class = "container">
         <div id= "start-screen">
             <h1>MAU MAU GAME</h1>
@@ -28,17 +34,28 @@
 
         <div id="gameover-screen">
           <h1> GAME OVER</h1>
+          <div id = "gameover-cropier">
+              
+              <img src="images/cropier.svg" alt="croupier">
+          </div>
+          <h2 id ="player-name"></h2>
             <button id = "btn-restart" type="submit">Restart</button>
         </div>
 
         <div id="container-cards">
-            <h1>MAU MAU</h1>
             <h2>Player 1</h2>
             <div id ="cards-hand-1">
                
                
             </div>
-            <button id = "btn-hide-1" type="submit">Show-Hide Player 1</button>
+            <div id = "cards-hide-1">
+                <img src="images/newcards/back.png" alt="" width="18%">
+                <img src="images/newcards/back.png" alt="" width="18%">
+                <img src="images/newcards/back.png" alt="" width="18%">
+                <img src="images/newcards/back.png" alt="" width="18%">
+                <img src="images/newcards/back.png" alt="" width="18%">
+            </div>
+            
             <div id="cards-dealer">           
 
             </div>
@@ -60,8 +77,7 @@
                   
             </div>
             <div id ="container-hide-player1">
-                <button id = "btn-hide0" type="submit">Show-Hide Player 1</button>
-                <button id = "btn-gameover" type="submit">GameOver</button>
+            
             </div>
         </div>
     </div>

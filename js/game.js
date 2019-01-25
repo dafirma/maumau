@@ -3,13 +3,13 @@ let game;
 function Game (){
   this.players = [new Player('Hugo'), new Player('Anna')];
   this.turn = 1;
-  this.cards = []; //ok
+  this.cards = [];
   this.table = [];
 }
 
 Game.prototype.makeDeck = function(){
   var suit = new Array("Spades", "Diamonds", "Clubs", "Hearts");
-  var values = new Array("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K");
+  var values = new Array("A", "8", "9", "10", "J", "Q", "K");
   this.cards = [];
     for (var i = 0; i < suit.length; i++){
       for (var x = 0; x < values.length; x++){
@@ -39,7 +39,6 @@ Game.prototype.allCardsDeal = function(){
     this.deal = this.cards[0];
     this.cards.shift();
     console.log(this.cards);
-    //console.log(this.cards.shift());
     console.log(this.deal);
   }else{
     console.log('empty');
@@ -73,7 +72,6 @@ Game.prototype.imgToTable = function(){
 
 Game.prototype.detectCard = function() {
   if (this.turn === 1) {
-    console.log('entra en el detect 111111');
     let imgPlayer1 = document.querySelectorAll(`#cards-hand-${this.turn} img`);
 
     imgPlayer1.forEach((elem, index, array) => {
@@ -86,7 +84,6 @@ Game.prototype.detectCard = function() {
       });
     });
   } else {
-    console.log('entra en el detect 222222222');
     let imgPlayer2 = document.querySelectorAll(`#cards-hand-${this.turn} img`);
     
     imgPlayer2.forEach((elem, index, array) => {
@@ -105,21 +102,31 @@ Game.prototype.detectCard = function() {
 //CHECK FUNCTION MATCH CARDS NEW
 Game.prototype.matchCardsNew = function(number, suit, index, imgPlayer){
   console.log(imgPlayer);
-  if(number === this.table[0].number || suit === this.table[0].suit){
+  if(number === this.table[0].number || suit === this.table[0].suit || number === 'A'){
     console.log('match con: ', number, suit, index);
-    
-    //game.popupPlayer(turn);
     //alert('PLAYER 2, IT\'S YOUR TURN!');
+    game.deleteCard(number, suit, index);
+    game.popupPlayer();
+    imgPlayer.forEach(elem => {
+      $(elem).off('click');
+    });
+    game.newTurnPlayer();
+  }else if(number === 'A'){
+    game.gameOverGame();
     game.deleteCard(number, suit, index);
     imgPlayer.forEach(elem => {
       $(elem).off('click');
     });
-    //game.turnPlayer();
-    game.newTurnPlayer();
+
+  }else if(number === 'K'){
+    game.gameOverGame();
+    game.deleteCard(number, suit, index);
+    imgPlayer.forEach(elem => {
+      $(elem).off('click');
+    });
   }else{
     console.log('no match, a comprar!!!!!');
-    //console.log(number,suit);
-    //alert ('WRONG CARD, TRY OTHER CARD OR BUY FROM THE PILE. THE CARD MUST BE THE SAME NUMBER OR SAME SUIT.');
+    game.popupPlayerWrong();
     game.buyCard();
     
   }
@@ -135,14 +142,11 @@ Game.prototype.newTurnPlayer = function (){
   game.detectCard();
 } 
 
-Game.prototype.turnPlayer = function(){ // alone for the pop up
+Game.prototype.turnPlayer = function(){ 
   console.log(this.turn);
   let handPlayer2 = document.getElementById(`cards-hand-0`);
   let handPlayer1 = document.getElementById(`cards-hand-1`);
   if(this.turn === 0 && handPlayer2.style.display === 'block'){
-    //let popupPlayer1 = document.getElementById('popup-player1');
-    //popupPlayer1.style.display = 'block';
-    //game.buttonScreen();
     handPlayer2.style.display = 'none';
     this.turn = 1;
   }
@@ -153,19 +157,14 @@ Game.prototype.buyCard = function(){
   console.log(this.turn);
   let turnTemp = this.turn;
   if (game.allCardsCount != 0){
-    cardDealer.addEventListener('click', function(){
-      var nextCard = this.cards[0];
-      game.sendCardToHand(this.cards[0],turnTemp);
-      this.players[this.turn].hand.push(nextCard);
-      this.cards.shift();
-      console.log('teste');
-      //alert('PLAYER 1, IT\'S YOUR TURN!');    
-    }.bind(this));
+    var nextCard = this.cards[0];
+    game.sendCardToHand(this.cards[0],turnTemp);
+    this.players[this.turn].hand.push(nextCard);
+    this.cards.shift();
+    console.log('teste');
     imgPlayer.forEach(elem => {
       $(elem).off('click');
     });
-    $(cardDealer).off('click');
-      game.newTurnPlayer();
   }else{
     console.log('pile empty.');
   }
@@ -185,10 +184,9 @@ Game.prototype.sendCardToHand = function(card, turnTemp){
     handCard.appendChild(img);
 }
 
- Game.prototype.deleteCardDom = function(index, number, suit, cardToTable){
+ Game.prototype.deleteCardDom = function(index, number, suit, cardToTable,times){
    console.log('index to delete:' + index); 
    var table = document.getElementById('cards-table');
-   //var hand = document.getElementById(`cards-hand-${turn}`);
    var changeAtt = table.childNodes[1];
    changeAtt.src = `images/newcards/${number}-${suit}.png`;
    changeAtt.setAttribute("data-suit", suit);
@@ -196,35 +194,38 @@ Game.prototype.sendCardToHand = function(card, turnTemp){
    table.appendChild(changeAtt);
    this.table.shift();
    this.table.push(cardToTable);
-  $(`#cards-hand-${this.turn}`).children()[index].remove(); // attention 
-}
+   console.log(times);
+   if(times > 1){
+    $(`#cards-hand-${this.turn}`).children()[index].remove();
+    $(`#cards-hand-${this.turn}`).children()[index].remove();
+   }else{
+     $(`#cards-hand-${this.turn}`).children()[index].remove();
 
+   }
+
+}
 
 Game.prototype.deleteCard = function(number, suit, index){
   console.log(this.turn);
+  let times=0;
   if(number === this.players[this.turn].hand[index].number || suit === this.players[this.turn].hand[index].suit){
     var cardToDelete = index;
     var cardToTable = this.players[this.turn].hand[index];
     game.deleteCardDom(cardToDelete,number,suit, cardToTable);
     this.players[this.turn].hand.splice(index,1); 
-    //game.newTurnPlayer();
-    // game.detectCard();
+    game.gameOverGame();
+  }else if(number === 'A'){
+    game.deleteCardDom(cardToDelete,number,suit, cardToTable);
+    this.players[this.turn].hand.splice(index,1);
+
+  }else if(number === 'K'){
+    times = 2;
+    game.deleteCardDom(cardToDelete,number,suit, cardToTable,times);
+    this.players[this.turn].hand.splice(index,2);
+
   }else {
     console.log('error');
   }
-
-
-
-  /*for(var i = 0; i < this.players[turn].hand.length; i++){
-    if(number === this.players[turn].hand[i].number || suit === this.players[turn].hand[i].suit){
-      var cardToDelete = index;
-      var cardToTable = this.players[turn].hand[i];
-      game.deleteCardDom(cardToDelete,number,suit,turn,cardToTable);
-      this.players[turn].hand.splice(index,1); 
-      game.newTurnPlayer(turn);
-      game.detectCard();
-    }
-  }*/
 }
 
 
@@ -237,44 +238,8 @@ Game.prototype.sendCardToTable = function(number,suit){
   changeAtt.setAttribute("data-number",number);
   table.appendChild(changeAtt);
 }
-/*
 
-Game.prototype.showHide0 = function(){
-  let el0 = document.getElementById('cards-hand-0');
-  let ch0 = document.getElementById('cards-hide-0');
-  let button0 = document.getElementById('btn-hide0');
-  console.log(this.turn);
-  console.log(el0);
-  button0.addEventListener('click', function(){
-    if(ch0.style.display ==='block'){
-      ch0.style.display = 'none';
-      el0.style.display = 'none';
-      console.log('test ok')
-    }else if(ch0.style.display ==='none'){
-      ch0.style.display = 'block';
-      el0.style.direction = 'none';
-      console.log('test error');s
-    }
 
-  })
-
-  }
-  */
-  /*
-  if(ch0.style.display ==='block'){
-    console.log(el1);
-    ch0.style.display = 'none';
-    el0.style.display = 'none';
-  }else if(ch0.style.display ==='none'){
-    ch0.style.display = 'block';
-    el0.style.direction = 'none';
-  }/*else if(this.turn === 0 && el0.style.display === 'none'){
-    el0.style.display === 'block';
-  }else if(this.turn === 0 && el0.style.display === 'block'){
-    el0.style.display === 'none';
-  }
-
-}.bind(this);*/
 Game.prototype.backCard = function(){
   var imgBackCard = document.createElement('img');
   imgBackCard.src = `images/newcards/back.png`;
@@ -295,18 +260,36 @@ function startGame(){
   game.backCard();
   game.imgToDom();
   game.imgToTable();
-  game.gameOverGame(game.turn);
+  game.gameOverGame();
+  
 }
 
-Game.prototype.gameOverGame = function(turn){
-  if(turn === 0){
-    if(game.allCardsCount() === 0){
-      alert('PLAYER 1 WIN!!!')
-    }
-  }else if(turn === 1){
-    if(game.allCardsCount() === 0){
-      alert('PLAYER 2 WIN!!!')
-    }
+Game.prototype.gameOverGame = function(){
+  let screen = document.getElementById('gameover-screen');
+  let name = document.getElementById('player-name');
+  let mainScreen = document.getElementById('container-cards');
+  let textNodePlayer1 = document.createTextNode(`Player 1 win!!!`);
+  let textNodePlayer2 = document.createTextNode(`Player 2 win!!!`);
+  if(this.players[1].hand.length === 0){
+    //alert('PLAYER 1 WIN!!!');
+    name.appendChild(textNodePlayer1);
+    screen.style.display = 'block';
+    mainScreen.style.display = 'none';
+  }else if(this.players[0].hand.length === 0){
+      //alert('PLAYER 2 WIN!!!')
+      name.appendChild(textNodePlayer2);
+      screen.style.display = 'block';
+      mainScreen.style.display = 'none';
+  }else if(this.cards === 0){
+    if(this.players[0].hand.length < this.players[1].hand.length){
+      name.appendChild(textNodePlayer2);
+      screen.style.display = 'block';
+      mainScreen.style.display = 'none';
+    }else if(this.players[1].hand.length < this.players[0].hand.length){
+      name.appendChild(textNodePlayer1);
+      screen.style.display = 'block';
+      mainScreen.style.display = 'none';
+      }
   }
 }
 
@@ -314,14 +297,14 @@ Game.prototype.dealToTable = function(){
   if(this.cards.length > 0){
     this.table.push(this.cards[0]);
     this.cards.shift();
-  } else{
+  }else{
     console.log('empty');
   }
 
 }
 Game.prototype.dealToHand = function(){
   this.players.forEach(function (elem){
-    for(var i =0; i < 5; i++){
+    for(var i =0; i < 2; i++){
       elem.hand.push(this.cards[0]);
       this.cards.shift(); 
     }
@@ -329,51 +312,87 @@ Game.prototype.dealToHand = function(){
 };
 
 
-Game.prototype.popupPlayer = function(turn){
-  console.log('tesr');
-  var popup = document.getElementById('popup-player');
-  var textPlace = document.getElementById('text-player');
-  var textP = document.createElement('p');
-  //textP.textContent = (`Player ${turn}, it's your turn!`);
-  //var text = document.createTextNode(`Player ${turn}, it's your turn!`);
-  textPlace.appendChild(textP);
-  popup.style.display = 'block';
+Game.prototype.popupPlayer = function(type){
+  console.log(this.turn);
+  let popupTurn = document.getElementById('popup-player');
+  let popupWrong = document.getElementById('popup-player');
+  popupTurn.style.display = 'block';
+  let textPlace = document.getElementById('text-player');
+  let number = document.getElementById('numberPlayer');
+  let button = document.getElementById('btn-player');
+  let el0 = document.getElementById('cards-hand-0');
+  let el1 = document.getElementById('cards-hand-1');
+  let ch0 = document.getElementById('cards-hide-0');
+  let ch1 = document.getElementById('cards-hide-1');
+  if(this.turn === 1){
+    button.addEventListener('click', function(){
+        popupTurn.style.display ='none';
+        console.log('turno deve ser1: ' + this.turn);
+        el1.style.display = 'none'; 
+        ch1.style.display = 'block';
+        el0.style.display = 'block';
+        ch0.style.display = 'none';
+        number.nodeValue = "";
+        document.getElementById("numberPlayer").textContent = "1";
+      }
+    )
+  }else if(this.turn === 0){
+      button.addEventListener('click', function(){
+        popupTurn.style.display ='none';
+        el1.style.display = 'block'; 
+        ch1.style.display = 'none';
+        el0.style.display = 'none';
+        ch0.style.display = 'block';
+        console.log('turno deve ser0: ' + this.turn);
+        document.getElementById("numberPlayer").textContent = "2";
+      }
+    )
+  }
 }
 
-  Game.prototype.bannerPlayerClick = function(){
+Game.prototype.popupPlayerWrong = function(){
+  console.log(this.turn);
+  let popupWrong = document.getElementById('popup-player-wrong');
+  popupWrong.style.display = 'block';
+  let textPlace = document.getElementById('text-player');
+  let number = document.getElementById('numberPlayer');
+  let buttonWrong = document.getElementById('btn-player-wrong');
+  let el0 = document.getElementById('cards-hand-0');
+  let el1 = document.getElementById('cards-hand-1');
+  let ch0 = document.getElementById('cards-hide-0');
+  let ch1 = document.getElementById('cards-hide-1');
+  if(this.turn === 1){
+    buttonWrong.addEventListener('click', function(){
+        popupWrong.style.display ='none';
+        console.log('turno deve ser1: ' + this.turn);
+        el1.style.display = 'none'; 
+        ch1.style.display = 'block';
+        el0.style.display = 'block';
+        ch0.style.display = 'none';
+        number.nodeValue = "";
+        document.getElementById("numberPlayer").textContent = "2";
+      })}else if(this.turn === 0){
+        buttonWrong.addEventListener('click', function(){
+          popupWrong.style.display ='none';
+          el1.style.display = 'block'; 
+        ch1.style.display = 'none';
+        el0.style.display = 'none';
+        ch0.style.display = 'block';
+        console.log('turno deve ser0: ' + this.turn);
+        document.getElementById("numberPlayer").textContent = "1";
+      }
+    )
+  }
+}
+
+Game.prototype.bannerPlayerClick = function(){
     var popup = document.getElementById('popup-player');
     console.log('popup');
     popup.style.display = 'none';
     $(`#text-player`).children()[0].remove();
     var text = document.getElementById('text-player');
 
-  }
-  /*
-  if(popup.style.display === 'none'){
-    var text = document.createTextNode(`Player ${turn}, it's your turn!`);
-    popup.style.display ='block';
-  }else if(popup.style.display === 'block'){
-      popup.style.display ='none';
-  }*/
-
-
-Game.prototype.buttonScreen = function(){
-
 }
-//let buttonHide = document.getElementById('btn-hide');
-//buttonHide.addEventListener('click', function(){
-//  Game.prototype.showHide();
-//});
-/*
-  //var elHide = document.getElementById('cards-hand-hide');
-  if( this.turn === 0 && el.style.display === 'none'){    
-      el.style.display = 'flex';
-      //elHide.style.display = 'flex';
-  }
-  else if(this.turn === 1 && el.style.display ==='flex'){
-      el.style.display = 'none';
-      //elHide.style.display = 'none';
-  }*/
 
 
 

@@ -1,63 +1,60 @@
 //let buttonHide = document.getElementById('btn-hide');
 let start = document.getElementById('btn-start');
-let gameOver = document.getElementById('btn-gameover');
+//let gameOver = document.getElementById('btn-gameover');
 let restart = document.getElementById('btn-restart');
 let btnShowHide0 = document.getElementById('btn-hide0');
-
+let btnShowHide1 = document.getElementById('btn-hide1');
 
 restart.addEventListener('click', function(){
   restartButton();
 });
 
-gameOver.addEventListener('click', function(){
-  gameOverButton();
-});
+//gameOver.addEventListener('click', function(){
+//  gameOverButton();
+//});
 
 start.addEventListener('click', function(){
   startButton();
 });
 
 
-btnShowHide0.addEventListener('click', function(){
-  showHide0();
+//btnShowHide0.addEventListener('click', function(){
+//  showHide0();
 
-});
+//});
+
+//btnShowHide1.addEventListener('click', function(){
+//  showHide1();
+
+//});
+
+
 
 function showHide0() {
   let el0 = document.getElementById('cards-hand-0');
   let ch0 = document.getElementById('cards-hide-0');
-  console.log(el0);
-    if(ch0.style.display ==='block'){
-      ch0.style.display = 'none';
-      el0.style.display = 'none';
-      console.log('test ok')
-    }else if(ch0.style.display ==='none'){
-      ch0.style.display = 'block';
-      el0.style.direction = 'none';
-      console.log('test error');
-    }
-
-}
-
-
-//buttonHide.addEventListener('click', function(){
-  //Game.prototype.showHide();
-//});
-
-// Restart Button
-function restartButton(){
-  console.log('button');
-  window.location.reload();
+  if(el0.style.display === 'none'){ 
+  el0.style.display = 'block'; 
+  ch0.style.display = 'none' ;
+  }else{
+    el0.style.display = 'none'; 
+    ch0.style.display = 'block';
+  }
   
-  /*
-  let gameScreen = document.getElementById('container-cards');
-  let gameOverScreen = document.getElementById('gameover-screen');
-  let startScreen = document.getElementById('start-screen');
-  startScreen.style.display = 'block';
-  gameOverScreen.style.display = 'none';
-  */
 }
 
+function showHide1() {
+  let el1 = document.getElementById('cards-hand-1');
+  let ch1 = document.getElementById('cards-hide-1');
+  if(el1.style.display === 'block'){
+  el1.style.display = 'none';
+  ch1.style.display = 'block'
+  }else{
+    el1.style.display = 'block';
+    ch1.style.display = 'none';
+  }
+  
+}
   //popup.classList.toggle('hidden');
   //if(popup.classList.toggle === 'hidden'){
     //console.log('ok');
@@ -89,7 +86,12 @@ function startButton(){
 
 }
 
+// Restart Button
+function restartButton(){
+  console.log('button');
+  window.location.reload();
 
+}
 
 // show hide card button 
 /*
